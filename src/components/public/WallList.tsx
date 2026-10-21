@@ -36,7 +36,7 @@ export const WallList: React.FC<WallListProps> = ({
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {diyas.map((diya) => (
-          <div
+          <article
             key={diya.publicId}
             onClick={() => onSelectDiya(diya)}
             className="p-5 rounded-2xl bg-night-900/70 border border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 transition-all cursor-pointer flex flex-col justify-between group shadow-sm hover:shadow-[0_0_20px_rgba(255,159,28,0.1)] focus:ring-2 focus:ring-flame-400 outline-none"
@@ -74,7 +74,7 @@ export const WallList: React.FC<WallListProps> = ({
                 })}
               </span>
             </div>
-          </div>
+          </article>
         ))}
       </div>
 

@@ -15,11 +15,12 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
     const initialValue = initialCounter ? Number(initialCounter.value) : 0;
 
     const idempotencyKey = crypto.randomUUID();
+    const testIp = `192.168.${Math.floor(Math.random() * 200 + 1)}.${Math.floor(Math.random() * 250 + 1)}`;
     const req = new NextRequest("http://localhost:3000/api/diyas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-forwarded-for": "192.168.1.101",
+        "x-forwarded-for": testIp,
       },
       body: JSON.stringify({
         idempotencyKey,
@@ -61,10 +62,11 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
       wishText: "Wishing everyone peace and abundant light this sacred season.",
     };
 
+    const testIp2 = `192.168.${Math.floor(Math.random() * 200 + 1)}.${Math.floor(Math.random() * 250 + 1)}`;
     // First request: 201 Created
     const req1 = new NextRequest("http://localhost:3000/api/diyas", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-forwarded-for": "192.168.1.102" },
+      headers: { "Content-Type": "application/json", "x-forwarded-for": testIp2 },
       body: JSON.stringify(payload),
     });
     const res1 = await createDiya(req1);
@@ -77,7 +79,7 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
     // Second request with same idempotencyKey: 200 OK (idempotent recovery)
     const req2 = new NextRequest("http://localhost:3000/api/diyas", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-forwarded-for": "192.168.1.102" },
+      headers: { "Content-Type": "application/json", "x-forwarded-for": testIp2 },
       body: JSON.stringify(payload),
     });
     const res2 = await createDiya(req2);
@@ -96,9 +98,10 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
     const counterBefore = await prisma.counter.findUnique({ where: { key: "diyas_total" } });
     const countVal = Number(counterBefore!.value);
 
+    const testIp3 = `192.168.${Math.floor(Math.random() * 200 + 1)}.${Math.floor(Math.random() * 250 + 1)}`;
     const req = new NextRequest("http://localhost:3000/api/diyas", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-forwarded-for": "192.168.1.103" },
+      headers: { "Content-Type": "application/json", "x-forwarded-for": testIp3 },
       body: JSON.stringify({
         idempotencyKey: crypto.randomUUID(),
         style: "golden",
@@ -121,9 +124,10 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
   it("automatically hides wish when 3 distinct reporters submit reports", async () => {
     // Create a diya
     const idempotencyKey = crypto.randomUUID();
+    const testIp4 = `192.168.${Math.floor(Math.random() * 200 + 1)}.${Math.floor(Math.random() * 250 + 1)}`;
     const createReq = new NextRequest("http://localhost:3000/api/diyas", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-forwarded-for": "192.168.1.104" },
+      headers: { "Content-Type": "application/json", "x-forwarded-for": testIp4 },
       body: JSON.stringify({
         idempotencyKey,
         style: "marigold",

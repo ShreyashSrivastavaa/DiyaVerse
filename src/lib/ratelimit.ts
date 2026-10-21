@@ -91,3 +91,27 @@ export async function checkRateLimit(options: RateLimitOptions): Promise<RateLim
     };
   }
 }
+
+/**
+ * Checks whether a rate limit threshold has been exceeded without incrementing.
+ */
+export async function peekRateLimit(options: RateLimitOptions): Promise<boolean> {
+  const now = new Date();
+  const windowStart = new Date(Math.floor(now.getTime() / options.windowMs) * options.windowMs);
+
+  try {
+    const record = await prisma.rateLimit.findUnique({
+      where: {
+        key_windowStart: {
+          key: options.key,
+          windowStart,
+        },
+      },
+    });
+
+    return !record || record.count < options.max;
+  } catch (error) {
+    console.error("Rate limit peek error:", error);
+    return true;
+  }
+}

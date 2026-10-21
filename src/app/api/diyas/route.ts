@@ -68,7 +68,31 @@ export async function POST(req: NextRequest) {
 
   const data = parseResult.data;
 
-  // 2. Rate Limiting (10 per hour, 3 per minute per identity)
+  // 2. Idempotency Check: Return existing diya if idempotencyKey was already processed
+  const existingDiya = await prisma.diya.findUnique({
+    where: { idempotencyKey: data.idempotencyKey },
+    include: { wish: true },
+  });
+
+  if (existingDiya) {
+    return NextResponse.json(
+      {
+        publicId: existingDiya.publicId,
+        url: `/d/${existingDiya.publicId}`,
+        style: existingDiya.style,
+        wish: {
+          text: existingDiya.customWish || existingDiya.wish?.text || "",
+          language: existingDiya.locale,
+          source: existingDiya.wishSource,
+        },
+        dedication: existingDiya.dedication,
+        dedicationText: existingDiya.dedicationText,
+      },
+      { status: 200 },
+    );
+  }
+
+  // 3. Rate Limiting (10 per hour, 3 per minute per identity)
   const identity = getClientIdentity(req, data.sessionId);
 
   const hourLimit = await checkRateLimit({
@@ -95,30 +119,6 @@ export async function POST(req: NextRequest) {
           "Retry-After": "60",
         },
       },
-    );
-  }
-
-  // 3. Idempotency Check: Return existing diya if idempotencyKey was already processed
-  const existingDiya = await prisma.diya.findUnique({
-    where: { idempotencyKey: data.idempotencyKey },
-    include: { wish: true },
-  });
-
-  if (existingDiya) {
-    return NextResponse.json(
-      {
-        publicId: existingDiya.publicId,
-        url: `/d/${existingDiya.publicId}`,
-        style: existingDiya.style,
-        wish: {
-          text: existingDiya.customWish || existingDiya.wish?.text || "",
-          language: existingDiya.locale,
-          source: existingDiya.wishSource,
-        },
-        dedication: existingDiya.dedication,
-        dedicationText: existingDiya.dedicationText,
-      },
-      { status: 200 },
     );
   }
 

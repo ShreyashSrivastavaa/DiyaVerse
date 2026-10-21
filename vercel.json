@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/rollup",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/reconcile",
+      "schedule": "30 21 * * *"
+    },
+    {
+      "path": "/api/cron/retention",
+      "schedule": "0 3 * * 0"
+    }
+  ]
+}
