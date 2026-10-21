@@ -5,6 +5,7 @@ import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
 import { ConsentBanner } from "@/components/public/ConsentBanner";
 import { ToastProvider } from "@/components/ui/Toast";
+import { Analytics } from "@vercel/analytics/next";
 
 const serifFont = Playfair_Display({
   variable: "--font-serif",
@@ -92,6 +93,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <ConsentBanner />
+          <Analytics />
         </ToastProvider>
       </body>
     </html>
