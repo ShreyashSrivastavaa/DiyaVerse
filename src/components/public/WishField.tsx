@@ -85,7 +85,7 @@ export const WishField: React.FC<WishFieldProps> = ({
           rows={3}
           maxLength={300} // HTML fallback, grapheme enforced via handler
           placeholder="Write your wish, or leave it blank and we'll choose one for you."
-          className="w-full px-4 py-3 bg-night-900/80 border border-night-800 rounded-xl text-ivory-50 placeholder-ivory-300/40 text-base focus:border-flame-400 focus:ring-1 focus:ring-flame-400 outline-none transition-all resize-none disabled:opacity-50"
+          className="w-full px-4 py-3 bg-white text-slate-950 font-medium border-2 border-flame-400 rounded-xl placeholder-slate-500 text-base focus:border-flame-500 focus:ring-2 focus:ring-flame-400/50 outline-none transition-all resize-none disabled:opacity-50 shadow-sm"
         />
       </div>
 

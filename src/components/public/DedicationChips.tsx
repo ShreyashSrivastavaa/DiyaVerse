@@ -93,9 +93,9 @@ export const DedicationChips: React.FC<DedicationChipsProps> = ({
               disabled={disabled}
               maxLength={30}
               placeholder="e.g. For Maa, For Dadi, For Teachers..."
-              className="w-full px-4 py-2.5 bg-night-900/80 border border-night-800 rounded-xl text-ivory-50 placeholder-ivory-300/40 text-sm focus:border-flame-400 focus:ring-1 focus:ring-flame-400 outline-none transition-all disabled:opacity-50"
+              className="w-full px-4 py-2.5 bg-white text-slate-950 font-medium border-2 border-flame-400 rounded-xl placeholder-slate-500 text-sm focus:border-flame-500 focus:ring-2 focus:ring-flame-400/50 outline-none transition-all disabled:opacity-50 shadow-sm"
             />
-            <span className="absolute right-3 top-2.5 text-xs text-ivory-300/50 font-mono">
+            <span className="absolute right-3 top-2.5 text-xs text-slate-500 font-mono">
               {dedicationText.length}/30
             </span>
           </div>
