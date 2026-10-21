@@ -25,6 +25,19 @@ interface CreatedDiyaData {
   dedicationText?: string | null;
 }
 
+interface CreateDiyaApiResponse {
+  publicId?: string;
+  style?: DiyaStyle;
+  wish?: {
+    text: string;
+    language: string;
+  };
+  dedication?: string | null;
+  dedicationText?: string | null;
+  code?: string;
+  error?: string;
+}
+
 function LightFlowContent() {
   const searchParams = useSearchParams();
 
@@ -129,7 +142,7 @@ function LightFlowContent() {
         body: JSON.stringify(payload),
       });
 
-      let data: Record<string, any> = {};
+      let data: CreateDiyaApiResponse = {};
       try {
         data = await res.json();
       } catch {
@@ -160,9 +173,9 @@ function LightFlowContent() {
 
       // Success!
       const result: CreatedDiyaData = {
-        publicId: data.publicId,
-        style: data.style,
-        wish: data.wish,
+        publicId: data.publicId || "",
+        style: data.style || "clay",
+        wish: data.wish || { text: "", language: locale },
         dedication: data.dedication,
         dedicationText: data.dedicationText,
       };
@@ -174,7 +187,7 @@ function LightFlowContent() {
 
       // Update URL with history.replaceState to /light?d=ID for refresh persistence
       if (typeof window !== "undefined") {
-        window.history.replaceState(null, "", `/light?d=${data.publicId}`);
+        window.history.replaceState(null, "", `/light?d=${result.publicId}`);
       }
 
       // If animation finishes or is ready, transition to lit
