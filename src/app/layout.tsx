@@ -1,32 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Inter, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
 import { ConsentBanner } from "@/components/public/ConsentBanner";
 import { ToastProvider } from "@/components/ui/Toast";
 import { Analytics } from "@vercel/analytics/next";
-
-const serifFont = Playfair_Display({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["600", "700", "800"],
-});
-
-const sansFont = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
-const devanagariFont = Noto_Sans_Devanagari({
-  variable: "--font-devanagari",
-  subsets: ["devanagari"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -77,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${serifFont.variable} ${sansFont.variable} ${devanagariFont.variable} scroll-smooth`}
+      className="scroll-smooth"
     >
       <body className="bg-night-950 text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
         <ToastProvider>
