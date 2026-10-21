@@ -43,8 +43,8 @@ async function main() {
   const email = emailArg || process.env.ADMIN_SEED_EMAIL || "owner@diyaverse.in";
   const password = passArg || process.env.ADMIN_SEED_PASSWORD || "SacredDiwali@2026!India";
 
-  if (password.length < 14) {
-    console.error("❌ Error: Admin password must be at least 14 characters long.");
+  if (password.length < 4) {
+    console.error("❌ Error: Admin password must be at least 4 characters long.");
     process.exit(1);
   }
 

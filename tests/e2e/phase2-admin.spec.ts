@@ -31,8 +31,8 @@ test.describe("Phase 2: Admin Console & Security", () => {
     await page.goto("/admin/login");
 
     // Live provisioned credentials from admin-create.ts
-    await page.fill('input[name="email"]', "admin@diyaverse.in");
-    await page.fill('input[name="password"]', "AdminSecretPass1234!");
+    await page.fill('input[name="email"]', "shreyashsr2004@gmail.com");
+    await page.fill('input[name="password"]', "13579");
     await page.click('button[type="submit"]');
 
     // Should redirect to /admin dashboard
