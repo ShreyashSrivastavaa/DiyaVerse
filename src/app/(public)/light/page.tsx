@@ -9,6 +9,7 @@ import { LightingAnimation } from "@/components/public/LightingAnimation";
 import { SuccessScreen } from "@/components/public/SuccessScreen";
 import { DiyaStyle } from "@/components/public/DiyaSprite";
 import { trackEvent } from "@/lib/analytics/client";
+import { generateUUID } from "@/lib/ids";
 
 type Step = "choose" | "lighting" | "lit" | "error";
 type LocaleType = "en" | "hi" | "hinglish";
@@ -49,7 +50,7 @@ function LightFlowContent() {
     trackEvent("creator_opened", {}, locale);
 
     // Generate new idempotencyKey
-    setIdempotencyKey(crypto.randomUUID());
+    setIdempotencyKey(generateUUID());
 
     // Check if ?d=ID is in URL for refresh persistence
     const existingId = searchParams.get("d");
@@ -89,8 +90,10 @@ function LightFlowContent() {
     setPreviewWish(null); // Reset preview to match new language pool
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+    }
     if (isSubmitting) return;
 
     setModerationError(null);
@@ -99,9 +102,14 @@ function LightFlowContent() {
     setAnimationReady(false);
     trackEvent("diya_submit_attempted", { style, locale }, locale);
 
+    const activeIdempotencyKey = idempotencyKey || generateUUID();
+    if (!idempotencyKey) {
+      setIdempotencyKey(activeIdempotencyKey);
+    }
+
     try {
       const payload = {
-        idempotencyKey,
+        idempotencyKey: activeIdempotencyKey,
         style,
         wishText: wishText.trim() || undefined,
         previewWishId: previewWish ? previewWish.id : undefined,
@@ -109,8 +117,7 @@ function LightFlowContent() {
         dedicationText: dedication === "custom" && dedicationText.trim() ? dedicationText.trim() : undefined,
         locale,
         attribution: {
-          ref: searchParams.get("ref") || undefined,
-          src: searchParams.get("src") || undefined,
+          refPublicId: searchParams.get("ref") || searchParams.get("refPublicId") || undefined,
           utmSource: searchParams.get("utm_source") || undefined,
           utmCampaign: searchParams.get("utm_campaign") || undefined,
         },
@@ -122,24 +129,33 @@ function LightFlowContent() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      let data: Record<string, any> = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
 
-      if (res.status === 422 && data.code === "WISH_REJECTED") {
-        trackEvent("diya_creation_failed", { reason: "rejected" }, locale);
-        setModerationError(data.error || "Please ensure your wish or dedication does not contain contact info or inappropriate words.");
-        setIsSubmitting(false);
-        return;
+      if (res.status === 422) {
+        if (data.code === "WISH_REJECTED" || data.code === "DEDICATION_REJECTED") {
+          trackEvent("diya_creation_failed", { reason: "rejected" }, locale);
+          setModerationError(data.error || "Please ensure your wish or dedication does not contain contact info or inappropriate words.");
+          setIsSubmitting(false);
+          setStep("choose");
+          return;
+        }
       }
 
       if (res.status === 429) {
         trackEvent("diya_creation_failed", { reason: "rate_limited" }, locale);
         setServerError("You have reached the lighting rate limit. Please pause and try again in a few minutes.");
         setIsSubmitting(false);
+        setStep("choose");
         return;
       }
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to light diya");
+        throw new Error(data.error || "Could not connect to the sacred flame. Please tap 'Retry Lighting' below.");
       }
 
       // Success!
@@ -166,7 +182,8 @@ function LightFlowContent() {
     } catch (err: unknown) {
       console.error("Submission failed:", err);
       trackEvent("diya_creation_failed", { reason: "server_error" }, locale);
-      setServerError("Could not connect to the sacred flame. Please tap 'Retry Lighting' below.");
+      const errMsg = err instanceof Error ? err.message : null;
+      setServerError(errMsg || "Could not connect to the sacred flame. Please tap 'Retry Lighting' below.");
       setStep("error");
     } finally {
       setIsSubmitting(false);
@@ -185,7 +202,7 @@ function LightFlowContent() {
 
   const handleLightAnother = () => {
     // Generate fresh idempotency key
-    setIdempotencyKey(crypto.randomUUID());
+    setIdempotencyKey(generateUUID());
     setWishText("");
     setPreviewWish(null);
     setDedication(null);
@@ -365,7 +382,10 @@ function LightFlowContent() {
             </button>
             <button
               type="button"
-              onClick={() => setStep("choose")}
+              onClick={() => {
+                setServerError(null);
+                setStep("choose");
+              }}
               className="px-6 py-3 rounded-xl bg-night-850 border border-night-700 text-ivory-200 text-sm min-h-[44px] cursor-pointer"
             >
               Edit Diya

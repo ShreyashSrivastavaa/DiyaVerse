@@ -21,7 +21,10 @@ const diyaCreateSchema = z.object({
       message: "Wish cannot exceed 140 characters",
     }),
   previewWishId: z.string().optional(),
-  dedication: z.enum(["family", "friends", "love", "world", "custom"]).optional(),
+  dedication: z
+    .enum(["family", "friends", "loved_ones", "love", "world", "custom"])
+    .optional()
+    .transform((val) => (val === "love" ? "loved_ones" : val)),
   dedicationText: z
     .string()
     .optional()
@@ -36,8 +39,17 @@ const diyaCreateSchema = z.object({
       utmSource: z.string().optional(),
       utmCampaign: z.string().optional(),
       refPublicId: z.string().optional(),
+      ref: z.string().optional(),
     })
-    .optional(),
+    .optional()
+    .transform((attr) => {
+      if (!attr) return undefined;
+      return {
+        utmSource: attr.utmSource,
+        utmCampaign: attr.utmCampaign,
+        refPublicId: attr.refPublicId || attr.ref,
+      };
+    }),
 });
 
 export async function POST(req: NextRequest) {

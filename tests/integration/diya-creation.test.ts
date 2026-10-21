@@ -197,4 +197,32 @@ describe("Diya Creation & Lifecycle Integration Tests", () => {
     });
     expect(stats.diyasLit).toBe(rowCount);
   });
+
+  it("successfully creates a diya with dedication 'loved_ones' and attribution 'ref'", async () => {
+    const idempotencyKey = crypto.randomUUID();
+    const testIp = `192.168.${Math.floor(Math.random() * 200 + 1)}.${Math.floor(Math.random() * 250 + 1)}`;
+    const req = new NextRequest("http://localhost:3000/api/diyas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-forwarded-for": testIp,
+      },
+      body: JSON.stringify({
+        idempotencyKey,
+        style: "marigold",
+        locale: "en",
+        wishText: "May love and joy surround you and your loved ones always.",
+        dedication: "loved_ones",
+        attribution: {
+          ref: "TESTREF123",
+        },
+      }),
+    });
+
+    const res = await createDiya(req);
+    expect(res.status).toBe(201);
+    const data = await res.json();
+    expect(data.publicId).toBeDefined();
+    expect(data.dedication).toBe("loved_ones");
+  });
 });
