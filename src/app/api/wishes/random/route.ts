@@ -14,9 +14,18 @@ export async function GET(req: NextRequest) {
 
   const wish = await pickWish({ locale, excludeIds });
 
-  return NextResponse.json(wish, {
-    headers: {
-      "Cache-Control": "no-store, max-age=0",
+  return NextResponse.json(
+    {
+      wish,
+      id: wish.id,
+      text: wish.text,
+      category: wish.category,
+      language: wish.language,
     },
-  });
+    {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",
+      },
+    }
+  );
 }

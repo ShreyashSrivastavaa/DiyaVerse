@@ -36,11 +36,11 @@ export const WishField: React.FC<WishFieldProps> = ({
       const res = await fetch(`/api/wishes/random?locale=${encodeURIComponent(locale)}&exclude=${encodeURIComponent(excludeParam)}`);
       if (res.ok) {
         const data = await res.json();
-        if (data.wish) {
-          onPreviewWishChange(data.wish);
-          setRecentIds((prev) => [...prev.slice(-19), data.wish.id]);
-          // If the user had typed something and clicked surprise me, we don't necessarily clear it,
-          // but if wishText is empty, previewWish provides the wish.
+        const picked = data.wish || (data.text ? data : null);
+        if (picked && picked.text) {
+          onWishTextChange(picked.text);
+          onPreviewWishChange(picked);
+          setRecentIds((prev) => [...prev.slice(-19), picked.id]);
         }
       }
     } catch (e) {
