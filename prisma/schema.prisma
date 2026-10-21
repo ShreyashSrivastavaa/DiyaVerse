@@ -1,0 +1,199 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum DiyaStatus {
+  PUBLISHED
+  HIDDEN
+  DELETED
+}
+
+enum WishSource {
+  LIBRARY
+  CUSTOM
+}
+
+enum ReportStatus {
+  OPEN
+  DISMISSED
+  ACTIONED
+}
+
+enum AdminRole {
+  OWNER
+  ADMIN
+}
+
+model Wish {
+  id        String   @id // e.g. "W-FAM-0042"
+  text      String
+  category  String
+  language  String   // en | hi | hinglish
+  tone      String?
+  tags      String[]
+  active    Boolean  @default(true)
+  version   Int      @default(1)
+  diyas     Diya[]
+
+  @@index([language, active])
+  @@index([category, active])
+}
+
+model Diya {
+  id             String       @id @default(cuid())
+  publicId       String       @unique // nanoid(10), URL-safe
+  seq            BigInt       @unique @default(autoincrement())
+  idempotencyKey String       @unique
+  style          String       // clay | marigold | rangoli | golden | lotus
+  occasion       String       @default("diwali")
+  locale         String
+  wishSource     WishSource
+  wishId         String?
+  wish           Wish?        @relation(fields: [wishId], references: [id])
+  customWish     String?      // validated, <=140 graphemes
+  wishVisible    Boolean      @default(true)
+  dedication     String?      // enum-like key or "custom"
+  dedicationText String?      // <=30 chars, moderated
+  status         DiyaStatus   @default(PUBLISHED)
+  sessionId      String?      // anonymous, nullable
+  utmSource      String?
+  utmCampaign    String?
+  refPublicId    String?      // diya that referred this one
+  createdAt      DateTime     @default(now())
+  reports        Report[]
+
+  @@index([status, seq(sort: Desc)])
+  @@index([createdAt])
+  @@index([locale, status])
+  @@index([refPublicId])
+}
+
+model Session {
+  id          String           @id // client UUID
+  visitorId   String?          // only if consented
+  firstSeenAt DateTime         @default(now())
+  lastSeenAt  DateTime         @default(now())
+  device      String?          // mobile | tablet | desktop
+  browser     String?
+  locale      String?
+  source      String?          // referrer host or utm_source
+  medium      String?
+  campaign    String?
+  landingPath String?
+  isBot       Boolean          @default(false)
+  events      AnalyticsEvent[]
+
+  @@index([visitorId])
+  @@index([firstSeenAt])
+}
+
+model AnalyticsEvent {
+  id         BigInt   @id @default(autoincrement())
+  sessionId  String
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  name       String
+  path       String
+  props      Json?
+  occurredAt DateTime @default(now())
+
+  @@index([name, occurredAt])
+  @@index([sessionId, occurredAt])
+  @@index([occurredAt])
+}
+
+model DailyStat {
+  date      DateTime // IST day, date only
+  metric    String   // e.g. "unique_visitors", "diyas_created"
+  dimension String   @default("all") // e.g. "all", "source:whatsapp", "device:mobile"
+  value     Int
+
+  @@id([date, metric, dimension])
+}
+
+model Counter {
+  key       String   @id // "diyas_total"
+  value     BigInt   @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model CounterReconciliation {
+  id        Int      @id @default(autoincrement())
+  key       String
+  stored    BigInt
+  actual    BigInt
+  corrected Boolean
+  at        DateTime @default(now())
+}
+
+model Report {
+  id           String       @id @default(cuid())
+  diyaId       String
+  diya         Diya         @relation(fields: [diyaId], references: [id])
+  reason       String       // offensive | spam | personal_info | other
+  note         String?      // <=200 chars
+  status       ReportStatus @default(OPEN)
+  reporterHash String?      // salted daily hash to dedupe
+  createdAt    DateTime     @default(now())
+  resolvedAt   DateTime?
+  resolvedBy   String?
+
+  @@unique([diyaId, reporterHash])
+  @@index([status, createdAt])
+}
+
+model AdminUser {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String         // Argon2id
+  role         AdminRole      @default(ADMIN)
+  createdAt    DateTime       @default(now())
+  sessions     AdminSession[]
+}
+
+model AdminSession {
+  id        String    @id // sha256 of token
+  adminId   String
+  admin     AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([adminId])
+  @@index([expiresAt])
+}
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  adminId    String
+  action     String   // diya.hide, diya.delete, wish.toggle, ...
+  targetType String
+  targetId   String
+  before     Json?
+  after      Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model RateLimit {
+  key         String
+  windowStart DateTime
+  count       Int
+
+  @@id([key, windowStart])
+}
+
+model ErrorLog {
+  id        BigInt   @id @default(autoincrement())
+  scope     String
+  message   String
+  stack     String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

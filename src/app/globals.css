@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --night-950: #0B1030;
+  --night-900: #131A45;
+  --night-800: #1E2660;
+  --plum-700: #3B1F5E;
+
+  --flame-300: #FFD98A;
+  --flame-400: #FFC857;
+  --flame-500: #FF9F1C;
+  --ember-600: #E8590C;
+
+  --marigold-500: #F9A825;
+  --saffron-600: #E67E22;
+
+  --ivory-50: #FFF8EB;
+  --ivory-300: #E9DFC8;
+
+  --background: var(--night-950);
+  --foreground: var(--ivory-50);
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hindi text line height adjustment */
+[lang="hi"] {
+  line-height: 1.7;
+}
+
+/* Focus outline accessibility */
+:focus-visible {
+  outline: 2px solid var(--flame-400);
+  outline-offset: 3px;
+}
+
+/* Touch targets at least 44px */
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+/* Prefers reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--night-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--night-800);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--night-900);
+}
