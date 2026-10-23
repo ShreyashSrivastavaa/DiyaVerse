@@ -51,7 +51,7 @@ export async function GET(
             bottom: 30,
             border: "2px solid rgba(255, 200, 87, 0.4)",
             borderRadius: 24,
-            pointerEvents: "none",
+            display: "flex",
           }}
         />
 
@@ -66,6 +66,7 @@ export async function GET(
         >
           <div
             style={{
+              display: "flex",
               color: "#FFC857",
               fontSize: 32,
               fontWeight: "bold",
@@ -76,6 +77,7 @@ export async function GET(
           </div>
           <div
             style={{
+              display: "flex",
               color: "#E9DFC8",
               fontSize: 18,
               letterSpacing: "0.2em",
@@ -113,9 +115,10 @@ export async function GET(
             🪔
           </div>
 
-          {dedication && (
+          {dedication ? (
             <div
               style={{
+                display: "flex",
                 fontSize: 26,
                 color: "#FFD98A",
                 textTransform: "uppercase",
@@ -126,18 +129,20 @@ export async function GET(
             >
               {dedication}
             </div>
-          )}
+          ) : null}
 
           <div
             style={{
-              fontSize: 40,
+              display: "flex",
+              fontSize: 38,
               textAlign: "center",
+              justifyContent: "center",
               lineHeight: 1.45,
               color: "#FFF8EB",
               fontStyle: "italic",
             }}
           >
-            &ldquo;{wishText}&rdquo;
+            {`“${wishText}”`}
           </div>
         </div>
 
@@ -153,11 +158,11 @@ export async function GET(
             width: "100%",
           }}
         >
-          <div style={{ fontSize: 22, color: "#FFC857", fontWeight: 600 }}>
+          <div style={{ display: "flex", fontSize: 22, color: "#FFC857", fontWeight: 600 }}>
             Light your own virtual diya at diyaverse.in
           </div>
-          <div style={{ fontSize: 16, color: "#E9DFC8" }}>
-            This Diwali, Let&apos;s Light India Together
+          <div style={{ display: "flex", fontSize: 16, color: "#E9DFC8" }}>
+            {"This Diwali, Let's Light India Together"}
           </div>
         </div>
       </div>
