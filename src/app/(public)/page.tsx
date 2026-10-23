@@ -4,6 +4,7 @@ import { Hero } from "@/components/public/Hero";
 import { Counter } from "@/components/public/Counter";
 import { HowItWorks } from "@/components/public/HowItWorks";
 import { RecentWishes } from "@/components/public/RecentWishes";
+import { QuizBanner } from "@/components/public/QuizBanner";
 import { ShareBlock } from "@/components/public/ShareBlock";
 
 export const revalidate = 10; // ISR cache 10s
@@ -74,6 +75,7 @@ export default async function HomePage() {
           initialWishesShared={initialWishesShared}
         />
         <HowItWorks />
+        <QuizBanner />
         <RecentWishes initialDiyas={recentDiyas} />
         <ShareBlock />
       </main>

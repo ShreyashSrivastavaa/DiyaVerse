@@ -20,9 +20,18 @@ export function Header() {
             <li>
               <Link
                 href="/wall"
-                className="inline-flex items-center justify-center min-h-[44px] px-3.5 py-2 text-sm font-medium text-ivory-300 hover:text-ivory-50 hover:bg-night-900 rounded-lg transition-colors"
+                className="inline-flex items-center justify-center min-h-[44px] px-3 py-2 text-sm font-medium text-ivory-300 hover:text-ivory-50 hover:bg-night-900 rounded-lg transition-colors"
               >
                 Diya Wall
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/quiz"
+                className="inline-flex items-center justify-center min-h-[44px] px-3 py-2 text-sm font-medium text-flame-300 hover:text-flame-200 hover:bg-night-900 rounded-lg transition-colors gap-1.5"
+              >
+                <span>🏹</span>
+                <span>Quiz</span>
               </Link>
             </li>
             <li>

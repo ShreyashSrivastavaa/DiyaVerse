@@ -54,6 +54,14 @@ export function Footer() {
             </li>
             <li>
               <Link
+                href="/quiz"
+                className="hover:text-flame-400 transition-colors p-2 inline-block min-h-[44px] leading-[28px]"
+              >
+                Ramayana Quiz
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/wall"
                 className="text-flame-400 hover:text-flame-300 transition-colors p-2 inline-block min-h-[44px] leading-[28px]"
               >
