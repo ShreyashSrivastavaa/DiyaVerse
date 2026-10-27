@@ -50,7 +50,7 @@ export async function GET() {
         },
       }
     );
-  } catch (error) {
+  } catch {
     try {
       const prodRes = await fetch("https://diyaverse.vercel.app/api/diyas/recent");
       if (prodRes.ok) {
@@ -70,7 +70,7 @@ export async function GET() {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed.diyas)) {
           return NextResponse.json({
-            diyas: parsed.diyas.slice(0, 6).map((d: any) => ({
+            diyas: parsed.diyas.slice(0, 6).map((d: Record<string, unknown>) => ({
               publicId: d.publicId,
               style: d.style,
               wishText: d.wishText,

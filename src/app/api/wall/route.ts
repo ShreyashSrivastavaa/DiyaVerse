@@ -96,11 +96,10 @@ export async function GET(req: NextRequest) {
         },
       }
     );
-  } catch (error) {
+  } catch {
     // When local database is not connected, transparently fetch from production or local mock snapshot
     const { searchParams } = new URL(req.url);
     const language = searchParams.get("language");
-    const category = searchParams.get("category");
 
     try {
       const prodUrl = new URL("https://diyaverse.vercel.app/api/wall");

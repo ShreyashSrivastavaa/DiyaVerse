@@ -62,7 +62,7 @@ export default async function HomePage() {
           : null),
       createdAt: d.createdAt.toISOString(),
     }));
-  } catch (err) {
+  } catch {
     // When local DB is not connected, fallback to production or mock data for local UI development
     try {
       const prodRes = await fetch("https://diyaverse.vercel.app/api/wall?limit=6", {
@@ -71,12 +71,12 @@ export default async function HomePage() {
       if (prodRes.ok) {
         const prodData = await prodRes.json();
         if (Array.isArray(prodData.diyas) && prodData.diyas.length > 0) {
-          recentDiyas = prodData.diyas.slice(0, 6).map((d: any) => ({
-            publicId: d.publicId,
-            style: d.style,
-            wishText: d.wishText,
-            dedication: d.dedication,
-            createdAt: d.createdAt,
+          recentDiyas = prodData.diyas.slice(0, 6).map((d: Record<string, unknown>) => ({
+            publicId: String(d.publicId || ""),
+            style: String(d.style || "classic"),
+            wishText: (d.wishText as string) || null,
+            dedication: (d.dedication as string) || null,
+            createdAt: String(d.createdAt || new Date().toISOString()),
           }));
           initialDiyasLit = Math.max(84, prodData.diyas[0]?.seq || 84);
           initialWishesShared = Math.max(80, Math.floor(initialDiyasLit * 0.95));

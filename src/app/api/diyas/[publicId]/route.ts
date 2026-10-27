@@ -38,19 +38,21 @@ export async function GET(
       if (fs.existsSync(mockPath)) {
         const raw = fs.readFileSync(mockPath, "utf-8");
         const parsed = JSON.parse(raw);
-        const found = parsed.diyas?.find((d: any) => d.publicId === publicId);
+        const found = (parsed.diyas as Record<string, unknown>[] | undefined)?.find(
+          (d) => d.publicId === publicId
+        );
         if (found) {
           return NextResponse.json({
-            publicId: found.publicId,
-            style: found.style,
-            createdAt: found.createdAt,
-            locale: found.locale,
+            publicId: String(found.publicId || publicId),
+            style: String(found.style || "classic"),
+            createdAt: String(found.createdAt || new Date().toISOString()),
+            locale: String(found.locale || "en"),
             wish: {
-              text: found.wishText,
-              language: found.locale,
+              text: (found.wishText as string) || "",
+              language: String(found.locale || "en"),
               hidden: false,
             },
-            dedication: found.dedication,
+            dedication: (found.dedication as string) || null,
             dedicationText: null,
             status: "PUBLISHED",
           });

@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ received: events.length }, { status: 200 });
-  } catch (error) {
+  } catch {
     // Graceful drop in development when DB is not connected
     return NextResponse.json({ received: 0 }, { status: 200 });
   }

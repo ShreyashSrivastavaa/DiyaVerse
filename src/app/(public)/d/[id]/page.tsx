@@ -51,20 +51,22 @@ async function getDiya(id: string) {
     if (fs.existsSync(mockPath)) {
       const raw = fs.readFileSync(mockPath, "utf-8");
       const parsed = JSON.parse(raw);
-      const found = parsed.diyas?.find((d: any) => d.publicId === id);
+      const found = (parsed.diyas as Record<string, unknown>[] | undefined)?.find(
+        (d) => d.publicId === id
+      );
       if (found) {
         return {
-          id: found.publicId,
-          publicId: found.publicId,
-          style: found.style,
-          status: "PUBLISHED",
+          id: String(found.publicId || id),
+          publicId: String(found.publicId || id),
+          style: String(found.style || "classic"),
+          status: "PUBLISHED" as const,
           wishVisible: true,
-          customWish: found.wishText,
+          customWish: (found.wishText as string) || null,
           wish: null,
-          dedication: found.dedication,
+          dedication: (found.dedication as string) || null,
           dedicationText: null,
-          locale: found.locale || "en",
-          createdAt: new Date(found.createdAt || Date.now()),
+          locale: (found.locale as string) || "en",
+          createdAt: new Date((found.createdAt as string) || Date.now()),
         };
       }
     }

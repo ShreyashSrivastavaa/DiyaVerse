@@ -62,7 +62,7 @@ export async function pickWish(options: PickWishOptions = {}): Promise<PickedWis
         return record;
       }
     }
-  } catch (error) {
+  } catch {
     // When local DB is not available, pick from data/wishes/ on disk
     try {
       const fs = await import("node:fs");
@@ -75,7 +75,9 @@ export async function pickWish(options: PickWishOptions = {}): Promise<PickedWis
         if (fs.existsSync(filePath)) {
           const raw = fs.readFileSync(filePath, "utf-8");
           const list = JSON.parse(raw);
-          const matching = list.filter((w: any) => w.language === locale && w.active);
+          const matching = Array.isArray(list)
+            ? list.filter((w: Record<string, unknown>) => w.language === locale && w.active)
+            : [];
           const pool = matching.length > 0 ? matching : list;
           if (pool.length > 0) {
             const item = pool[Math.floor(Math.random() * pool.length)];
