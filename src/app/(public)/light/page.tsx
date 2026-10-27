@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { StylePicker } from "@/components/public/StylePicker";
 import { WishField } from "@/components/public/WishField";
 import { DedicationChips, DedicationType } from "@/components/public/DedicationChips";
+import { LocationPicker } from "@/components/public/LocationPicker";
 import { LightingAnimation } from "@/components/public/LightingAnimation";
 import { SuccessScreen } from "@/components/public/SuccessScreen";
 import { DiyaStyle } from "@/components/public/DiyaSprite";
@@ -49,6 +50,8 @@ function LightFlowContent() {
   const [previewWish, setPreviewWish] = useState<{ id: string; text: string; language: string } | null>(null);
   const [dedication, setDedication] = useState<DedicationType>(null);
   const [dedicationText, setDedicationText] = useState("");
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [city, setCity] = useState<string>("");
 
   // Submissions & Keys
   const [idempotencyKey, setIdempotencyKey] = useState<string>("");
@@ -129,6 +132,8 @@ function LightFlowContent() {
         dedication: dedication || undefined,
         dedicationText: dedication === "custom" && dedicationText.trim() ? dedicationText.trim() : undefined,
         locale,
+        state: selectedState || undefined,
+        city: city.trim() || undefined,
         attribution: {
           refPublicId: searchParams.get("ref") || searchParams.get("refPublicId") || undefined,
           utmSource: searchParams.get("utm_source") || undefined,
@@ -220,6 +225,8 @@ function LightFlowContent() {
     setPreviewWish(null);
     setDedication(null);
     setDedicationText("");
+    setSelectedState("");
+    setCity("");
     setModerationError(null);
     setServerError(null);
     setCreatedDiya(null);
@@ -334,6 +341,15 @@ function LightFlowContent() {
               dedicationText={dedicationText}
               onDedicationChange={setDedication}
               onDedicationTextChange={setDedicationText}
+              disabled={isSubmitting}
+            />
+
+            {/* 4. Location on Map */}
+            <LocationPicker
+              selectedState={selectedState}
+              onStateChange={setSelectedState}
+              city={city}
+              onCityChange={setCity}
               disabled={isSubmitting}
             />
 
