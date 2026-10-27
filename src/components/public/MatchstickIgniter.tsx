@@ -34,30 +34,37 @@ export const MatchstickIgniter: React.FC<MatchstickProps> = ({
     if (isIgniting && targetX > 0 && targetY > 0) {
       const colors = ["#FFF9C4", "#FFD54F", "#FFB300", "#FF8F00", "#FF6F00", "#FFF"];
       const newSparks: SparkParticle[] = [];
-      const count = 16; // 16 celebratory spark particles
+      const count = 18; // celebratory spark particles
 
       for (let i = 0; i < count; i++) {
-        const angle = (Math.random() * Math.PI * 2);
+        const angle = Math.random() * Math.PI * 2;
         const speed = 25 + Math.random() * 45;
         newSparks.push({
           id: ++sparkIdCounter.current,
           x: targetX,
           y: targetY,
           dx: Math.cos(angle) * speed,
-          dy: Math.sin(angle) * speed - 15, // bias upwards
-          size: 2 + Math.random() * 3.5,
+          dy: Math.sin(angle) * speed - 18, // bias upwards
+          size: 2.2 + Math.random() * 3.8,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
 
-      setSparks(newSparks);
+      // Time sparks to burst right when flame kisses the wick (~580ms)
+      const sparkTimer = setTimeout(() => {
+        setSparks(newSparks);
+      }, 580);
 
-      const timer = setTimeout(() => {
+      // Graceful completion after full slow, ceremonial animation (~1700ms)
+      const doneTimer = setTimeout(() => {
         setSparks([]);
         onIgnitionComplete?.();
-      }, 700);
+      }, 1700);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(sparkTimer);
+        clearTimeout(doneTimer);
+      };
     }
   }, [isIgniting, targetX, targetY, onIgnitionComplete]);
 
@@ -70,22 +77,23 @@ export const MatchstickIgniter: React.FC<MatchstickProps> = ({
         {isIgniting && targetX > 0 && (
           <motion.div
             initial={{
-              x: targetX + 50,
-              y: targetY - 60,
+              x: targetX + 75,
+              y: targetY - 85,
               rotate: -45,
               opacity: 0,
-              scale: 0.8,
+              scale: 0.85,
             }}
             animate={{
-              x: [targetX + 50, targetX + 4, targetX + 2, targetX + 25],
-              y: [targetY - 60, targetY + 2, targetY, targetY - 30],
-              rotate: [-45, -28, -25, -35],
-              opacity: [0, 1, 1, 0],
-              scale: [0.8, 1, 1, 0.9],
+              // Approach -> Gentle touch on wick -> Dwell / kiss wick -> Gracefully lift & withdraw
+              x: [targetX + 75, targetX + 4, targetX + 2, targetX + 2, targetX + 45],
+              y: [targetY - 85, targetY + 2, targetY, targetY, targetY - 50],
+              rotate: [-45, -28, -24, -25, -38],
+              opacity: [0, 1, 1, 1, 0],
+              scale: [0.85, 1, 1.03, 1, 0.9],
             }}
             transition={{
-              duration: 0.65,
-              times: [0, 0.45, 0.7, 1],
+              duration: 1.65, // slowed down for a smooth ceremonial lighting ritual
+              times: [0, 0.35, 0.52, 0.72, 1],
               ease: [0.22, 1, 0.36, 1],
             }}
             className="absolute top-0 left-0"
@@ -154,8 +162,8 @@ export const MatchstickIgniter: React.FC<MatchstickProps> = ({
             opacity: [1, 0.9, 0],
           }}
           transition={{
-            duration: 0.55 + Math.random() * 0.15,
-            ease: [0.25, 1, 0.5, 1],
+            duration: 0.75 + Math.random() * 0.25,
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="absolute rounded-full pointer-events-none"
           style={{
