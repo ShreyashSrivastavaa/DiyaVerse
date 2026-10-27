@@ -81,6 +81,10 @@ export async function GET(req: NextRequest) {
               ? "For the world"
               : null)
           : null,
+        state: d.state || null,
+        city: d.city || null,
+        lat: d.lat || null,
+        lng: d.lng || null,
         createdAt: d.createdAt.toISOString(),
       };
     });

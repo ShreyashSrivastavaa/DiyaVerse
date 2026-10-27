@@ -33,6 +33,10 @@ const diyaCreateSchema = z.object({
       message: "Dedication cannot exceed 30 characters",
     }),
   locale: z.enum(["en", "hi", "hinglish"]).default("en"),
+  state: z.string().max(100).optional().transform((val) => (val ? normalizeText(val) : undefined)),
+  city: z.string().max(100).optional().transform((val) => (val ? normalizeText(val) : undefined)),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
   sessionId: z.string().optional(),
   attribution: z
     .object({
@@ -218,6 +222,10 @@ export async function POST(req: NextRequest) {
           utmSource: data.attribution?.utmSource || null,
           utmCampaign: data.attribution?.utmCampaign || null,
           refPublicId: data.attribution?.refPublicId || null,
+          state: data.state || null,
+          city: data.city || null,
+          lat: data.lat || null,
+          lng: data.lng || null,
         },
         include: { wish: true },
       });
@@ -250,6 +258,10 @@ export async function POST(req: NextRequest) {
         },
         dedication: newDiya.dedication,
         dedicationText: newDiya.dedicationText,
+        state: newDiya.state,
+        city: newDiya.city,
+        lat: newDiya.lat,
+        lng: newDiya.lng,
       },
       { status: 201 },
     );
@@ -303,6 +315,10 @@ export async function POST(req: NextRequest) {
             locale: data.locale,
             wishText: wishTextToReturn,
             dedication: data.dedicationText || (data.dedication ? `For ${data.dedication}` : null),
+            state: data.state || null,
+            city: data.city || null,
+            lat: data.lat || null,
+            lng: data.lng || null,
             createdAt: new Date().toISOString(),
           };
           parsed.diyas.unshift(newMockDiya);
@@ -325,6 +341,10 @@ export async function POST(req: NextRequest) {
         },
         dedication: data.dedication || null,
         dedicationText: data.dedicationText || null,
+        state: data.state || null,
+        city: data.city || null,
+        lat: data.lat || null,
+        lng: data.lng || null,
       },
       { status: 201 },
     );

@@ -65,6 +65,10 @@ model Diya {
   utmSource      String?
   utmCampaign    String?
   refPublicId    String?      // diya that referred this one
+  state          String?
+  city           String?
+  lat            Float?
+  lng            Float?
   createdAt      DateTime     @default(now())
   reports        Report[]
 
@@ -72,6 +76,7 @@ model Diya {
   @@index([createdAt])
   @@index([locale, status])
   @@index([refPublicId])
+  @@index([state])
 }
 
 model Session {
