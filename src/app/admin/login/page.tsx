@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { DiyaVerseLogo } from "@/components/public/DiyaVerseLogo";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -46,9 +47,9 @@ function LoginForm() {
 
   return (
     <div className="w-full max-w-sm p-8 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl space-y-6 text-left">
-      <div className="text-center space-y-1">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 border border-flame-400/40 text-flame-400 mb-2">
-          🪔
+      <div className="text-center space-y-2">
+        <div className="flex justify-center mb-1">
+          <DiyaVerseLogo size="lg" showText={false} variant="admin" />
         </div>
         <h1 className="text-xl font-bold text-slate-100 tracking-tight">DiyaVerse Console</h1>
         <p className="text-xs text-slate-400">Authenticated administrator access only</p>

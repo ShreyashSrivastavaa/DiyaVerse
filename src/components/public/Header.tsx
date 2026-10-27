@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { DiyaVerseLogo } from "./DiyaVerseLogo";
 
 export function Header() {
   return (
@@ -7,12 +8,10 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-lg font-serif font-bold text-flame-400 hover:text-flame-300 transition-colors focus-visible:outline-flame-400 p-2 min-h-[44px]"
+          className="flex items-center transition-opacity hover:opacity-95 focus-visible:outline-flame-400 py-1 min-h-[44px]"
+          aria-label="DiyaVerse Home"
         >
-          <span className="text-2xl" role="img" aria-label="Lit Diya">
-            🪔
-          </span>
-          <span className="tracking-wide">DiyaVerse</span>
+          <DiyaVerseLogo size="sm" />
         </Link>
 
         <nav aria-label="Main Navigation">

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { DiyaVerseLogo } from "./DiyaVerseLogo";
 
 export function Footer() {
   return (
@@ -8,9 +9,10 @@ export function Footer() {
         <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xl font-serif font-bold text-flame-400 hover:text-flame-300 transition-colors"
+            className="flex items-center transition-opacity hover:opacity-90"
+            aria-label="DiyaVerse Home"
           >
-            <span aria-hidden="true">🪔</span> DiyaVerse
+            <DiyaVerseLogo size="md" />
           </Link>
           <p className="text-xs text-ivory-300/80 max-w-sm">
             This Diwali, Let&apos;s Light India Together. Every diya is a real saved light on our

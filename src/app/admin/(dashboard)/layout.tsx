@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { getAdminSession } from "@/lib/auth/session";
+import { DiyaVerseLogo } from "@/components/public/DiyaVerseLogo";
 
 export const metadata: Metadata = {
   title: "DiyaVerse Console • Administration",
@@ -39,7 +40,7 @@ export default async function AdminDashboardLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/admin" className="flex items-center gap-2 font-bold text-slate-100 text-base">
-              <span className="text-flame-400">🪔</span>
+              <DiyaVerseLogo size="xs" showText={false} variant="admin" />
               <span>DiyaVerse Console</span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-flame-400/20 text-flame-300 border border-flame-400/30">
                 {session.admin.role}
