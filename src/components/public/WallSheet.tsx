@@ -47,12 +47,19 @@ export const WallSheet: React.FC<WallSheetProps> = ({ diya, onClose }) => {
           </button>
         </div>
 
-        {/* Dedication */}
-        {diya.dedication && (
-          <span className="inline-block px-3 py-0.5 rounded-full bg-flame-400/10 border border-flame-400/20 text-xs text-flame-300 font-medium">
-            {diya.dedication}
-          </span>
-        )}
+        {/* Dedication and Location badges */}
+        <div className="flex flex-wrap items-center gap-2">
+          {diya.dedication && (
+            <span className="inline-block px-3 py-0.5 rounded-full bg-flame-400/10 border border-flame-400/20 text-xs text-flame-300 font-medium">
+              {diya.dedication}
+            </span>
+          )}
+          {(diya.state || diya.city) && (
+            <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-night-800 border border-night-700 text-xs text-ivory-300 font-medium">
+              📍 {[diya.city, diya.state].filter(Boolean).join(", ")}
+            </span>
+          )}
+        </div>
 
         {/* Wish content */}
         <blockquote className="text-lg sm:text-xl font-serif text-ivory-50 italic leading-relaxed">

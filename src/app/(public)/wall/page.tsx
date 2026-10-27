@@ -17,6 +17,13 @@ function WallContent() {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"canvas" | "list">("canvas");
   const [selectedDiya, setSelectedDiya] = useState<WallDiya | null>(null);
+  const [activeFocusId, setActiveFocusId] = useState<string | null>(focusedPublicId);
+
+  useEffect(() => {
+    if (focusedPublicId) {
+      setActiveFocusId(focusedPublicId);
+    }
+  }, [focusedPublicId]);
 
   // Filters
   const [language, setLanguage] = useState<string>("all");
@@ -75,6 +82,7 @@ function WallContent() {
 
   const handleSelectDiya = (diya: WallDiya) => {
     trackEvent("diya_opened", { source: "wall", publicId: diya.publicId });
+    setActiveFocusId(diya.publicId);
     setSelectedDiya(diya);
   };
 
@@ -162,8 +170,9 @@ function WallContent() {
         <div aria-hidden={viewMode !== "canvas"}>
           <WallCanvas
             diyas={diyas}
-            focusedPublicId={focusedPublicId}
+            focusedPublicId={activeFocusId}
             onSelectDiya={handleSelectDiya}
+            activeLanguage={language}
           />
         </div>
       ) : (
