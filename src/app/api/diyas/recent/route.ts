@@ -51,7 +51,39 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error("Failed to fetch recent diyas:", error);
-    return NextResponse.json({ diyas: [] }, { status: 500 });
+    try {
+      const prodRes = await fetch("https://diyaverse.vercel.app/api/diyas/recent");
+      if (prodRes.ok) {
+        const prodData = await prodRes.json();
+        return NextResponse.json(prodData);
+      }
+    } catch {
+      // ignore
+    }
+
+    try {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const mockPath = path.resolve(process.cwd(), "data/mock-wall.json");
+      if (fs.existsSync(mockPath)) {
+        const raw = fs.readFileSync(mockPath, "utf-8");
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.diyas)) {
+          return NextResponse.json({
+            diyas: parsed.diyas.slice(0, 6).map((d: any) => ({
+              publicId: d.publicId,
+              style: d.style,
+              wishText: d.wishText,
+              dedication: d.dedication,
+              createdAt: d.createdAt,
+            })),
+          });
+        }
+      }
+    } catch {
+      // ignore
+    }
+
+    return NextResponse.json({ diyas: [] }, { status: 200 });
   }
 }

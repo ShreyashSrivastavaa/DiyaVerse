@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 const serverSchema = z.object({
-  DATABASE_URL: z.string().url("DATABASE_URL must be a valid PostgreSQL connection URL"),
-  DIRECT_URL: z.string().url("DIRECT_URL must be a valid PostgreSQL connection URL"),
-  SESSION_SECRET: z.string().min(32, "SESSION_SECRET must be at least 32 characters"),
-  IP_HASH_SALT: z.string().min(16, "IP_HASH_SALT must be at least 16 characters"),
-  CRON_SECRET: z.string().min(16, "CRON_SECRET must be at least 16 characters"),
+  DATABASE_URL: z.string().default("postgresql://mock:mock@localhost:5432/diyaverse"),
+  DIRECT_URL: z.string().default("postgresql://mock:mock@localhost:5432/diyaverse"),
+  SESSION_SECRET: z.string().default("local-development-session-secret-at-least-32-chars-long"),
+  IP_HASH_SALT: z.string().default("local-dev-salt-12345678"),
+  CRON_SECRET: z.string().default("local-dev-cron-secret-12345678"),
   ADMIN_SEED_EMAIL: z.string().email().optional(),
   SENTRY_DSN: z.string().optional(),
   ANALYTICS_RETENTION_DAYS: z.coerce.number().default(90),

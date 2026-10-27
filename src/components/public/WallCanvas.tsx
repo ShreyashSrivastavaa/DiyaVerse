@@ -128,8 +128,8 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
       ctx.save();
       ctx.scale(dpr, dpr);
 
-      // Midnight night background
-      ctx.fillStyle = "#0B1030";
+      // Midnight crimson background
+      ctx.fillStyle = "#140206";
       ctx.fillRect(0, 0, width, height);
 
       // Camera transform

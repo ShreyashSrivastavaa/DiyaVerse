@@ -9,10 +9,12 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-devanagari: 'Noto Sans Devanagari', 'Inter', sans-serif;
 
-  --night-950: #0B1030;
-  --night-900: #131A45;
-  --night-800: #1E2660;
-  --plum-700: #3B1F5E;
+  --night-950: #140206;
+  --night-900: #22040B;
+  --night-850: #2D0711;
+  --night-800: #3B0A17;
+  --night-750: #4C0E20;
+  --plum-700: #540E24;
 
   --flame-300: #FFD98A;
   --flame-400: #FFC857;
@@ -25,13 +27,18 @@
   --ivory-50: #FFF8EB;
   --ivory-300: #E9DFC8;
 
-  --background: var(--night-950);
+  --background: #140206;
   --foreground: var(--ivory-50);
 }
 
-/* Base Body Styles */
+/* Base Body Styles with Uploaded Wallpaper Background */
 body {
-  background-color: var(--background);
+  background-color: #140206;
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
@@ -39,6 +46,19 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fixed background presentation across all viewports */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 /* Hindi text line height adjustment */

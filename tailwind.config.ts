@@ -13,7 +13,9 @@ const config: Config = {
         night: {
           950: "var(--night-950)",
           900: "var(--night-900)",
+          850: "var(--night-850)",
           800: "var(--night-800)",
+          750: "var(--night-750)",
         },
         plum: {
           700: "var(--plum-700)",

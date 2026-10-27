@@ -63,7 +63,34 @@ export async function pickWish(options: PickWishOptions = {}): Promise<PickedWis
       }
     }
   } catch (error) {
-    console.error("Error picking random wish:", error);
+    // When local DB is not available, pick from data/wishes/ on disk
+    try {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const wishesDir = path.resolve(process.cwd(), "data/wishes");
+      if (fs.existsSync(wishesDir)) {
+        const files = ["happiness.json", "universal.json", "family.json", "friendship.json", "love.json", "hope.json"];
+        const file = files[Math.floor(Math.random() * files.length)];
+        const filePath = path.join(wishesDir, file);
+        if (fs.existsSync(filePath)) {
+          const raw = fs.readFileSync(filePath, "utf-8");
+          const list = JSON.parse(raw);
+          const matching = list.filter((w: any) => w.language === locale && w.active);
+          const pool = matching.length > 0 ? matching : list;
+          if (pool.length > 0) {
+            const item = pool[Math.floor(Math.random() * pool.length)];
+            return {
+              id: item.id,
+              text: item.text,
+              category: item.category,
+              language: item.language,
+            };
+          }
+        }
+      }
+    } catch {
+      // ignore and use constant fallback
+    }
   }
 
   return CONSTANT_FALLBACK_WISH;

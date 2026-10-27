@@ -9,12 +9,75 @@ interface DiyaPageProps {
   params: Promise<{ id: string }>;
 }
 
+async function getDiya(id: string) {
+  try {
+    const diya = await prisma.diya.findUnique({
+      where: { publicId: id },
+      include: { wish: true },
+    });
+    if (diya) return diya;
+  } catch {
+    // If local DB is not connected, fallback
+  }
+
+  // Try production API
+  try {
+    const res = await fetch(`https://diyaverse.vercel.app/api/diyas/${id}`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        id: data.publicId,
+        publicId: data.publicId,
+        style: data.style,
+        status: data.status || "PUBLISHED",
+        wishVisible: !data.wish?.hidden,
+        customWish: data.wish?.text || "",
+        wish: null,
+        dedication: data.dedication || null,
+        dedicationText: data.dedicationText || null,
+        locale: data.locale || "en",
+        createdAt: new Date(data.createdAt || Date.now()),
+      };
+    }
+  } catch {
+    // ignore
+  }
+
+  // Try local mock-wall.json
+  try {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const mockPath = path.resolve(process.cwd(), "data/mock-wall.json");
+    if (fs.existsSync(mockPath)) {
+      const raw = fs.readFileSync(mockPath, "utf-8");
+      const parsed = JSON.parse(raw);
+      const found = parsed.diyas?.find((d: any) => d.publicId === id);
+      if (found) {
+        return {
+          id: found.publicId,
+          publicId: found.publicId,
+          style: found.style,
+          status: "PUBLISHED",
+          wishVisible: true,
+          customWish: found.wishText,
+          wish: null,
+          dedication: found.dedication,
+          dedicationText: null,
+          locale: found.locale || "en",
+          createdAt: new Date(found.createdAt || Date.now()),
+        };
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  return null;
+}
+
 export async function generateMetadata({ params }: DiyaPageProps): Promise<Metadata> {
   const { id } = await params;
-  const diya = await prisma.diya.findUnique({
-    where: { publicId: id },
-    include: { wish: true },
-  });
+  const diya = await getDiya(id);
 
   if (!diya || diya.status === "DELETED" || !diya.wishVisible) {
     return {
@@ -62,11 +125,7 @@ export async function generateMetadata({ params }: DiyaPageProps): Promise<Metad
 
 export default async function DiyaPage({ params }: DiyaPageProps) {
   const { id } = await params;
-
-  const diya = await prisma.diya.findUnique({
-    where: { publicId: id },
-    include: { wish: true },
-  });
+  const diya = await getDiya(id);
 
   // Not found or deleted state
   if (!diya || diya.status === "DELETED") {

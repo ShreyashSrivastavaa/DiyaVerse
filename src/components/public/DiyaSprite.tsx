@@ -64,7 +64,7 @@ export function DiyaSprite({
             <stop offset="0%" stopColor="#FFD98A" stopOpacity="0.8" />
             <stop offset="35%" stopColor="#FF9F1C" stopOpacity="0.4" />
             <stop offset="70%" stopColor="#E8590C" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#0B1030" stopOpacity="0" />
+            <stop offset="100%" stopColor="#140206" stopOpacity="0" />
           </radialGradient>
 
           {/* Flame Gradients */}

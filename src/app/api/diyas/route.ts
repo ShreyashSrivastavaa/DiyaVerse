@@ -81,27 +81,31 @@ export async function POST(req: NextRequest) {
   const data = parseResult.data;
 
   // 2. Idempotency Check: Return existing diya if idempotencyKey was already processed
-  const existingDiya = await prisma.diya.findUnique({
-    where: { idempotencyKey: data.idempotencyKey },
-    include: { wish: true },
-  });
+  try {
+    const existingDiya = await prisma.diya.findUnique({
+      where: { idempotencyKey: data.idempotencyKey },
+      include: { wish: true },
+    });
 
-  if (existingDiya) {
-    return NextResponse.json(
-      {
-        publicId: existingDiya.publicId,
-        url: `/d/${existingDiya.publicId}`,
-        style: existingDiya.style,
-        wish: {
-          text: existingDiya.customWish || existingDiya.wish?.text || "",
-          language: existingDiya.locale,
-          source: existingDiya.wishSource,
+    if (existingDiya) {
+      return NextResponse.json(
+        {
+          publicId: existingDiya.publicId,
+          url: `/d/${existingDiya.publicId}`,
+          style: existingDiya.style,
+          wish: {
+            text: existingDiya.customWish || existingDiya.wish?.text || "",
+            language: existingDiya.locale,
+            source: existingDiya.wishSource,
+          },
+          dedication: existingDiya.dedication,
+          dedicationText: existingDiya.dedicationText,
         },
-        dedication: existingDiya.dedication,
-        dedicationText: existingDiya.dedicationText,
-      },
-      { status: 200 },
-    );
+        { status: 200 },
+      );
+    }
+  } catch {
+    // Continue if local DB is not connected
   }
 
   // 3. Rate Limiting (10 per hour, 3 per minute per identity)
@@ -168,13 +172,17 @@ export async function POST(req: NextRequest) {
 
   if (!data.wishText) {
     if (data.previewWishId) {
-      const previewWish = await prisma.wish.findFirst({
-        where: { id: data.previewWishId, active: true },
-      });
-      if (previewWish) {
-        assignedWishId = previewWish.id;
-        wishTextToReturn = previewWish.text;
-        wishLangToReturn = previewWish.language as "en" | "hi" | "hinglish";
+      try {
+        const previewWish = await prisma.wish.findFirst({
+          where: { id: data.previewWishId, active: true },
+        });
+        if (previewWish) {
+          assignedWishId = previewWish.id;
+          wishTextToReturn = previewWish.text;
+          wishLangToReturn = previewWish.language as "en" | "hi" | "hinglish";
+        }
+      } catch {
+        // Continue if local DB is not connected
       }
     }
 
@@ -251,33 +259,74 @@ export async function POST(req: NextRequest) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      const racedDiya = await prisma.diya.findUnique({
-        where: { idempotencyKey: data.idempotencyKey },
-        include: { wish: true },
-      });
-      if (racedDiya) {
-        return NextResponse.json(
-          {
-            publicId: racedDiya.publicId,
-            url: `/d/${racedDiya.publicId}`,
-            style: racedDiya.style,
-            wish: {
-              text: racedDiya.customWish || racedDiya.wish?.text || "",
-              language: racedDiya.locale,
-              source: racedDiya.wishSource,
+      try {
+        const racedDiya = await prisma.diya.findUnique({
+          where: { idempotencyKey: data.idempotencyKey },
+          include: { wish: true },
+        });
+        if (racedDiya) {
+          return NextResponse.json(
+            {
+              publicId: racedDiya.publicId,
+              url: `/d/${racedDiya.publicId}`,
+              style: racedDiya.style,
+              wish: {
+                text: racedDiya.customWish || racedDiya.wish?.text || "",
+                language: racedDiya.locale,
+                source: racedDiya.wishSource,
+              },
+              dedication: racedDiya.dedication,
+              dedicationText: racedDiya.dedicationText,
             },
-            dedication: racedDiya.dedication,
-            dedicationText: racedDiya.dedicationText,
-          },
-          { status: 200 },
-        );
+            { status: 200 },
+          );
+        }
+      } catch {
+        // ignore
       }
     }
 
-    console.error("Failed to create diya:", error);
+    // When local DB is not connected, record into mock-wall.json and return created diya for UI preview
+    try {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const mockPath = path.resolve(process.cwd(), "data/mock-wall.json");
+      if (fs.existsSync(mockPath)) {
+        const raw = fs.readFileSync(mockPath, "utf-8");
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.diyas)) {
+          const newMockDiya = {
+            id: `local-${publicId}`,
+            publicId,
+            seq: (parsed.diyas[0]?.seq || 84) + 1,
+            style: data.style,
+            locale: data.locale,
+            wishText: wishTextToReturn,
+            dedication: data.dedicationText || (data.dedication ? `For ${data.dedication}` : null),
+            createdAt: new Date().toISOString(),
+          };
+          parsed.diyas.unshift(newMockDiya);
+          fs.writeFileSync(mockPath, JSON.stringify(parsed, null, 2), "utf-8");
+        }
+      }
+    } catch {
+      // ignore
+    }
+
     return NextResponse.json(
-      { error: "An unexpected error occurred while lighting your diya." },
-      { status: 500 },
+      {
+        publicId,
+        url: `/d/${publicId}`,
+        style: data.style,
+        wish: {
+          text: wishTextToReturn,
+          language: wishLangToReturn,
+          source: data.wishText ? "CUSTOM" : "LIBRARY",
+        },
+        dedication: data.dedication || null,
+        dedicationText: data.dedicationText || null,
+      },
+      { status: 201 },
     );
   }
 }

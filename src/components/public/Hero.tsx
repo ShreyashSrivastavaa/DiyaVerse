@@ -2,12 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
-import { DiyaSprite } from "./DiyaSprite";
+import Image from "next/image";
 import { trackEvent } from "@/lib/analytics/client";
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24 text-center flex flex-col items-center justify-center">
+    <section className="relative overflow-hidden py-12 sm:py-20 text-center flex flex-col items-center justify-center">
       {/* 12 Floating Embers (pure CSS, hidden under prefers-reduced-motion) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {Array.from({ length: 12 }).map((_, i) => (
@@ -33,14 +33,23 @@ export const Hero: React.FC = () => {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-4 flex flex-col items-center">
-        {/* Single Hero Diya with Warm Golden Glow */}
-        <div className="mb-8 relative flex items-center justify-center group">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 flex flex-col items-center">
+        {/* Festive Hero Artwork with Warm Glow */}
+        <div className="mb-8 relative flex items-center justify-center w-full max-w-xl sm:max-w-2xl group">
           <div
-            className="absolute -inset-4 bg-flame-400/20 rounded-full blur-2xl group-hover:bg-flame-400/30 transition-all duration-700 pointer-events-none"
+            className="absolute -inset-3 bg-flame-400/20 rounded-3xl blur-2xl group-hover:bg-flame-400/30 transition-all duration-700 pointer-events-none"
             aria-hidden="true"
           />
-          <DiyaSprite style="clay" size="hero" isLit={true} />
+          <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-flame-400/30 shadow-[0_0_35px_rgba(255,159,28,0.25)] bg-night-950/40">
+            <Image
+              src="/hero-diwali.jpg"
+              alt="Shubh Deepavali - Lord Rama, Sita, and Lakshmana in Ayodhya with illuminated diyas"
+              width={1024}
+              height={576}
+              priority
+              className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            />
+          </div>
         </div>
 
         {/* H1 Heading */}

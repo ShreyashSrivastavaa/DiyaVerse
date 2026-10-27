@@ -1,0 +1,855 @@
+{
+  "diyas": [
+    {
+      "id": "local-rPtAncQbIl",
+      "publicId": "rPtAncQbIl",
+      "seq": 85,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "Happy Diwali to everyone!",
+      "dedication": "For world",
+      "createdAt": "2026-10-26T15:34:22.671Z"
+    },
+    {
+      "id": "cmvmk3in40001lc07srj57j9b",
+      "publicId": "hqq6namNMs",
+      "seq": 84,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "gah",
+      "dedication": "For family",
+      "createdAt": "2026-10-24T15:31:14.849Z"
+    },
+    {
+      "id": "cmvmionri0003l608mrxlssak",
+      "publicId": "FU3fFQSWmn",
+      "seq": 83,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "Wishing that vibrant memories gather unbreakable ties of trust beside evening diyas through all life's changing tides.",
+      "dedication": null,
+      "createdAt": "2026-10-24T14:51:42.030Z"
+    },
+    {
+      "id": "cmvmijp0g0001jm083xy8ce2m",
+      "publicId": "6fwCrqFsUv",
+      "seq": 82,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "Let peaceful serenity shield wholesome sound wellness within a tranquil mind keeping your mind calm and sound.",
+      "dedication": null,
+      "createdAt": "2026-10-24T14:47:50.368Z"
+    },
+    {
+      "id": "cmvmihygf0001l6089qc7epob",
+      "publicId": "7E64CyFXfm",
+      "seq": 81,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "Let all sacred flames nurture dear kith and kin in mutual understanding keeping your home deeply blessed.",
+      "dedication": null,
+      "createdAt": "2026-10-24T14:46:29.296Z"
+    },
+    {
+      "id": "cmvku5jzu0003ub74tnc1qpf8",
+      "publicId": "vs81vbxcGz",
+      "seq": 80,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "May wholesome gentle serenity refresh peace of mind and body in wholesome balance freeing your spirit from all fatigue.",
+      "dedication": null,
+      "createdAt": "2026-10-23T10:37:13.722Z"
+    },
+    {
+      "id": "cmvktbspb0001ub74t3t03umv",
+      "publicId": "r5fFBwJ1QD",
+      "seq": 79,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "Let gentle blessings unite every sibling and relative around the dining table strengthening your ancestral roots.",
+      "dedication": null,
+      "createdAt": "2026-10-23T10:14:05.321Z"
+    },
+    {
+      "id": "cmvjsp0ux0003l808aid0bdng",
+      "publicId": "ZPyCEK3WF5",
+      "seq": 78,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May tender sweet sanctuary weave your shared journey under soft starlight blessing your united dreams.",
+      "dedication": null,
+      "createdAt": "2026-10-22T17:08:36.634Z"
+    },
+    {
+      "id": "cmvjsoa7t0001l808exm4vo16",
+      "publicId": "EdoZnFIqDO",
+      "seq": 77,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May wholesome balanced vitality cleanse peace of mind and body across every daily task freeing your spirit from all fatigue.",
+      "dedication": null,
+      "createdAt": "2026-10-22T17:08:02.106Z"
+    },
+    {
+      "id": "cmvjsm15z0001l808cpednb2d",
+      "publicId": "n9vJnUquBD",
+      "seq": 76,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "We pray that united blessings enrich every member of the family around the dining table strengthening your ancestral roots.",
+      "dedication": null,
+      "createdAt": "2026-10-22T17:06:17.063Z"
+    },
+    {
+      "id": "cmvhuha6j000di9o8jbfz4hat",
+      "publicId": "4vuoqbgM6y",
+      "seq": 75,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "May love and joy surround you and your loved ones always.",
+      "dedication": "For loved one",
+      "createdAt": "2026-10-21T08:23:02.347Z"
+    },
+    {
+      "id": "cmvhuh7me0005i9o8zwgqfi61",
+      "publicId": "ID8LXKJT4H",
+      "seq": 74,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T08:22:59.030Z"
+    },
+    {
+      "id": "cmvhuh68n0003i9o86e9ocbdl",
+      "publicId": "0s4lWR8Y6A",
+      "seq": 73,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T08:22:57.240Z"
+    },
+    {
+      "id": "cmvhuh50n0001i9o8m0y3d7vo",
+      "publicId": "iY2xStzNWD",
+      "seq": 72,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T08:22:55.655Z"
+    },
+    {
+      "id": "cmvhu7e2q0005i9b8c8ak6zw1",
+      "publicId": "X0TpPXb15j",
+      "seq": 71,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T08:15:20.834Z"
+    },
+    {
+      "id": "cmvhu7crd0003i9b80px5pmpp",
+      "publicId": "9hFnFtXCg6",
+      "seq": 70,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T08:15:19.130Z"
+    },
+    {
+      "id": "cmvhu7bo10001i9b8uw6ua93p",
+      "publicId": "xRjKBWgouT",
+      "seq": 69,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T08:15:17.713Z"
+    },
+    {
+      "id": "cmvhpkjqg0001jt07269x3jim",
+      "publicId": "44u45vtm4e",
+      "seq": 68,
+      "style": "rangoli",
+      "locale": "en",
+      "wishText": "May quiet resilient wellness heal natural inner resilience in wholesome balance for a vibrant and flourishing year.",
+      "dedication": "For the world",
+      "createdAt": "2026-10-21T06:05:36.616Z"
+    },
+    {
+      "id": "cmvhlnggs0001jt08up1bvl1d",
+      "publicId": "BzCEGIxc9N",
+      "seq": 67,
+      "style": "rangoli",
+      "locale": "en",
+      "wishText": "Wishing that vibrant lamps foster festive cheer beside glowing lamps and brighten your quiet mornings.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T04:15:53.884Z"
+    },
+    {
+      "id": "cmvhlamgl0005i92kzxb73r2z",
+      "publicId": "EHpcKMDOqy",
+      "seq": 66,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T04:05:55.125Z"
+    },
+    {
+      "id": "cmvhlakxh0003i92kasffta02",
+      "publicId": "upLmuKWpMz",
+      "seq": 65,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T04:05:53.141Z"
+    },
+    {
+      "id": "cmvhlajqq0001i92kwx2c18bp",
+      "publicId": "VKCevWINJB",
+      "seq": 64,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T04:05:51.601Z"
+    },
+    {
+      "id": "cmvhjr15g0005i9x85n4pcvi3",
+      "publicId": "9asldxUamC",
+      "seq": 63,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:22:41.428Z"
+    },
+    {
+      "id": "cmvhjr00y0003i9x8224qx1e7",
+      "publicId": "y5oVODtekp",
+      "seq": 62,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:22:39.970Z"
+    },
+    {
+      "id": "cmvhjqz1p0001i9x89f4we2yd",
+      "publicId": "oCGPaWCbL6",
+      "seq": 61,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T03:22:38.701Z"
+    },
+    {
+      "id": "cmvhj7aty0007i978l2p6zjzt",
+      "publicId": "NENpg4Z16v",
+      "seq": 60,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T03:07:20.854Z"
+    },
+    {
+      "id": "cmvhj71ux0005i978agvnsds6",
+      "publicId": "9kJMMhPKKA",
+      "seq": 59,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "May wholesome resilient nutrition invigorate your natural vigor in wholesome balance keeping your mind calm and sound.",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:07:09.225Z"
+    },
+    {
+      "id": "cmvhj62m60003i978zr1ti7zn",
+      "publicId": "QtO4zdv12h",
+      "seq": 58,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T03:06:23.550Z"
+    },
+    {
+      "id": "cmvhj619j0001i978t67aixg3",
+      "publicId": "wTDrQzw8za",
+      "seq": 57,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "For your noble endeavors, may dignified ventures elevate noble career aspirations with high ethical honor with honor, prosperity, and joy.",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:06:21.799Z"
+    },
+    {
+      "id": "cmvhj5cuc0005i9ncgpi35pa2",
+      "publicId": "pRIrTmm0rx",
+      "seq": 56,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:05:50.148Z"
+    },
+    {
+      "id": "cmvhj5bl70003i9ncnf8ckr3k",
+      "publicId": "PQ7I9Ag8Q4",
+      "seq": 55,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:05:48.523Z"
+    },
+    {
+      "id": "cmvhj5ags0001i9ncsbbwuwdu",
+      "publicId": "qZ1gs2n2OW",
+      "seq": 54,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T03:05:47.068Z"
+    },
+    {
+      "id": "cmvhixxqz0005i9y4h12n3j3p",
+      "publicId": "H4VilMH8jd",
+      "seq": 53,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:00:03.995Z"
+    },
+    {
+      "id": "cmvhixwkl0003i9y4zo0wb5ma",
+      "publicId": "qRCPY8p4TN",
+      "seq": 52,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T03:00:02.469Z"
+    },
+    {
+      "id": "cmvhixviz0001i9y4ffziqpri",
+      "publicId": "grieZON6EN",
+      "seq": 51,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T03:00:01.115Z"
+    },
+    {
+      "id": "cmvhiw2uk0007i91krknbaksq",
+      "publicId": "RZ7nQ1dWiv",
+      "seq": 50,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:58:37.292Z"
+    },
+    {
+      "id": "cmvhivzff0005i91kj8n8flvr",
+      "publicId": "M8eUwBuHVU",
+      "seq": 49,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "We pray that ancestral traditions shelter family elders and youth in mutual understanding keeping your home deeply blessed.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:58:32.859Z"
+    },
+    {
+      "id": "cmvhivo0k0003i91kwp9mzsvv",
+      "publicId": "WzqEOPUbzf",
+      "seq": 48,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "May unshakeable radiant horizons whisper boundless faith for tomorrow through every dark passage promising a luminous and kind future.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:58:18.069Z"
+    },
+    {
+      "id": "cmvhivnob0001i91kgc301nw5",
+      "publicId": "qpug1fMomD",
+      "seq": 47,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:58:17.627Z"
+    },
+    {
+      "id": "cmvhiqef10007i9f4vgpjmhg1",
+      "publicId": "VN1AZ0VMMo",
+      "seq": 46,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "May the quiet flame of radiant promises strengthen tender lifelong companionship in gentle harmony this Diwali and forevermore.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:54:12.350Z"
+    },
+    {
+      "id": "cmvhiqdva0005i9f4lb6suxjz",
+      "publicId": "tGn41gXCz2",
+      "seq": 45,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:54:11.638Z"
+    },
+    {
+      "id": "cmvhipw2n0003i9f4c9n83g6z",
+      "publicId": "IU7laI8vXJ",
+      "seq": 44,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "Across your home, may peaceful glimmers infuse boundless elation within living rooms freeing your outlook from all worry.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:53:48.575Z"
+    },
+    {
+      "id": "cmvhipfe60001i9f4juh2xkuv",
+      "publicId": "grqAkXc7sq",
+      "seq": 43,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:53:26.958Z"
+    },
+    {
+      "id": "cmvhiomon0005i9a86ev9lb61",
+      "publicId": "2WNOol5Ds6",
+      "seq": 42,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:52:49.752Z"
+    },
+    {
+      "id": "cmvhiolbj0003i9a8dbyyrcfe",
+      "publicId": "vMsYJ0uwPo",
+      "seq": 41,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:52:47.983Z"
+    },
+    {
+      "id": "cmvhiok420001i9a8hln0b45y",
+      "publicId": "FewPpkKsU7",
+      "seq": 40,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:52:46.418Z"
+    },
+    {
+      "id": "cmvhin3q40003i9n8585nxqvp",
+      "publicId": "rDyIJQNDxS",
+      "seq": 39,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:51:38.525Z"
+    },
+    {
+      "id": "cmvhin1r00001i9n8omshc6xs",
+      "publicId": "8fmN0z5XaQ",
+      "seq": 38,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:51:35.963Z"
+    },
+    {
+      "id": "cmvhi7a7b0007i9awhkhvkwxg",
+      "publicId": "CZ6Df1jjCZ",
+      "seq": 37,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "We pray that just harmony unite all nations across our world across all earthly borders under the gentle gaze of starlight.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:39:20.424Z"
+    },
+    {
+      "id": "cmvhi79xj0005i9aw2uj82o3t",
+      "publicId": "hAUQM0o2xO",
+      "seq": 36,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:39:20.072Z"
+    },
+    {
+      "id": "cmvhi6vzm0003i9awfvkskz19",
+      "publicId": "Vk8lyuvvVl",
+      "seq": 35,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "Let inspiring sunrises breathe bright possibilities ahead turning pages toward light with gentle clarity and quiet grace.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:39:02.002Z"
+    },
+    {
+      "id": "cmvhi6pup0001i9aw19a1dumi",
+      "publicId": "7MPNrklmPe",
+      "seq": 34,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:38:54.044Z"
+    },
+    {
+      "id": "cmvhi51x90005i9s87j1ea5go",
+      "publicId": "u1o3coHxqS",
+      "seq": 33,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:37:36.382Z"
+    },
+    {
+      "id": "cmvhi50rh0003i9s8w5qaor8h",
+      "publicId": "dfkFtoogU5",
+      "seq": 32,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:37:34.877Z"
+    },
+    {
+      "id": "cmvhi4zqr0001i9s84e4ya3be",
+      "publicId": "xX3gipjwLe",
+      "seq": 31,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:37:33.555Z"
+    },
+    {
+      "id": "cmvhi41r70005i9h0r8o6jrvz",
+      "publicId": "P0xUUN0iF6",
+      "seq": 30,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:36:49.507Z"
+    },
+    {
+      "id": "cmvhi40kf0003i9h0fymjdn6o",
+      "publicId": "TU291VgMEk",
+      "seq": 29,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:36:47.967Z"
+    },
+    {
+      "id": "cmvhi3ziw0001i9h0phz79bqy",
+      "publicId": "3EXNiPSwrj",
+      "seq": 28,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:36:46.616Z"
+    },
+    {
+      "id": "cmvhi3h180005i9a88b3fxjgs",
+      "publicId": "R5RKopnnIa",
+      "seq": 27,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:36:22.652Z"
+    },
+    {
+      "id": "cmvhi3ft80003i9a89hihr420",
+      "publicId": "Td4XPuJnit",
+      "seq": 26,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:36:21.069Z"
+    },
+    {
+      "id": "cmvhi3eun0001i9a87kro4b7s",
+      "publicId": "07VtgIr4jt",
+      "seq": 25,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:36:19.823Z"
+    },
+    {
+      "id": "cmvhhhz3f0005i910x0tbsh6v",
+      "publicId": "3WtNMsIHGC",
+      "seq": 24,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:19:39.628Z"
+    },
+    {
+      "id": "cmvhhhx910003i91028wrr3sq",
+      "publicId": "KCu93nZLQm",
+      "seq": 23,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:19:37.237Z"
+    },
+    {
+      "id": "cmvhhhvya0001i910pk2lluu4",
+      "publicId": "4m4yf1N3Zu",
+      "seq": 22,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:19:35.554Z"
+    },
+    {
+      "id": "cmvhhgdug0007i9lc3xqjoux7",
+      "publicId": "1Ark9k9o93",
+      "seq": 21,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "Let romantic glances sweeten your quiet sanctuary through life's seasons making every moment profoundly sweet.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:18:25.432Z"
+    },
+    {
+      "id": "cmvhhg93n0005i9lckwkid85a",
+      "publicId": "nxKyKeq49q",
+      "seq": 20,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "For every soul on earth, may healing empathy wrap destitute and lonely souls dispelling harsh prejudice for the welfare of all humankind.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:18:19.283Z"
+    },
+    {
+      "id": "cmvhhg8fw0003i9lc5fa52ca2",
+      "publicId": "M1hrJzuC9O",
+      "seq": 19,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:18:18.429Z"
+    },
+    {
+      "id": "cmvhhg2h90001i9lcs1asyo92",
+      "publicId": "iRv9VQRPuI",
+      "seq": 18,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:18:10.698Z"
+    },
+    {
+      "id": "cmvhhed2l0003i91wcytbi6e8",
+      "publicId": "HVwNUQjd9A",
+      "seq": 17,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:16:51.117Z"
+    },
+    {
+      "id": "cmvhhe8860001i91wrhjkpbhs",
+      "publicId": "Jy4ZDr0Bmo",
+      "seq": 16,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:16:44.838Z"
+    },
+    {
+      "id": "cmvhhcyi30003i938rspp796z",
+      "publicId": "owVZBoZA1C",
+      "seq": 15,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:15:45.580Z"
+    },
+    {
+      "id": "cmvhhctl70001i938j7cbwcn3",
+      "publicId": "TtMotNj6ZZ",
+      "seq": 14,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:15:39.211Z"
+    },
+    {
+      "id": "cmvhhb8lz0005i9hwdzpduv5c",
+      "publicId": "clbqzhl8aT",
+      "seq": 13,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "May quiet sweet embers awaken gentle gladness inside peaceful hearts leaving pure joy in every room.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:14:25.367Z"
+    },
+    {
+      "id": "cmvhhb8ht0003i9hwqknbohj9",
+      "publicId": "tQOn5X8F9W",
+      "seq": 12,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "We pray that courageous promises restore boundless faith for tomorrow with gentle clarity and calm with gentle clarity and quiet grace.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:14:25.217Z"
+    },
+    {
+      "id": "cmvhhb20z0001i9hww3deo0el",
+      "publicId": "R8iBPNiot9",
+      "seq": 11,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:14:16.835Z"
+    },
+    {
+      "id": "cmvhh9i340007i9fcr5w4xbqd",
+      "publicId": "s4BlmDIMfX",
+      "seq": 10,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "May quiet restorative endurance strengthen your physical stamina throughout each morning freeing your spirit from all fatigue.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:13:04.337Z"
+    },
+    {
+      "id": "cmvhh9hs00005i9fclbnl46ar",
+      "publicId": "iHy9IxTJSM",
+      "seq": 9,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:13:03.937Z"
+    },
+    {
+      "id": "cmvhh9co40003i9fc7oc6pyjo",
+      "publicId": "Bbg991salg",
+      "seq": 8,
+      "style": "golden",
+      "locale": "en",
+      "wishText": "Between two devoted souls, may compassionate affection deepen your quiet sanctuary in gentle harmony under heaven's luminous blessings.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:12:57.317Z"
+    },
+    {
+      "id": "cmvhh94g70001i9fcr3j8fzy6",
+      "publicId": "6sgGO4h9I0",
+      "seq": 7,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "May this festival illuminate your path with wisdom and joy.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:12:46.660Z"
+    },
+    {
+      "id": "cmvhh67sz0005i984ppfllh7l",
+      "publicId": "D7Rqzrs6E3",
+      "seq": 6,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:10:31.043Z"
+    },
+    {
+      "id": "cmvhh661k0003i984ylpyjpdc",
+      "publicId": "ETcbyMmy48",
+      "seq": 5,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:10:28.760Z"
+    },
+    {
+      "id": "cmvhh64pl0001i984qkg6dysi",
+      "publicId": "C06FP3PsvB",
+      "seq": 4,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:10:27.033Z"
+    },
+    {
+      "id": "cmvhh4pkb0005i9k41qzjq7t4",
+      "publicId": "A5SfFrCBJZ",
+      "seq": 3,
+      "style": "marigold",
+      "locale": "en",
+      "wishText": "A quiet diya",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:09:20.747Z"
+    },
+    {
+      "id": "cmvhh4ofu0003i9k42fel18cm",
+      "publicId": "E3mkrfexTb",
+      "seq": 2,
+      "style": "lotus",
+      "locale": "en",
+      "wishText": "Wishing everyone peace and abundant light this sacred season.",
+      "dedication": null,
+      "createdAt": "2026-10-21T02:09:19.291Z"
+    },
+    {
+      "id": "cmvhh4ngu0001i9k4y1f49aq8",
+      "publicId": "8l8ZYWKE4u",
+      "seq": 1,
+      "style": "clay",
+      "locale": "en",
+      "wishText": "May this Diwali bring boundless joy and prosperity to your family.",
+      "dedication": "For family",
+      "createdAt": "2026-10-21T02:09:18.030Z"
+    }
+  ],
+  "nextCursor": null
+}

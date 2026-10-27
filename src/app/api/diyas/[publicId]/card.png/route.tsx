@@ -10,18 +10,23 @@ export async function GET(
 ) {
   const { publicId } = await params;
 
-  const diya = await prisma.diya.findUnique({
-    where: { publicId },
-    include: { wish: true },
-  });
+  let diya = null;
+  try {
+    diya = await prisma.diya.findUnique({
+      where: { publicId },
+      include: { wish: true },
+    });
+  } catch {
+    // continue with fallback
+  }
 
-  const isVisible = diya && diya.status !== "DELETED" && diya.wishVisible;
-  const wishText = isVisible
+  const isVisible = Boolean(diya && diya.status !== "DELETED" && diya.wishVisible);
+  const wishText = isVisible && diya
     ? diya.customWish || diya.wish?.text || "May the festival of lights bring peace and boundless joy."
     : "A quiet diya glowing for Diwali.";
 
   const dedication =
-    isVisible && (diya.dedicationText || (diya.dedication ? `For my ${diya.dedication}` : ""));
+    isVisible && diya ? (diya.dedicationText || (diya.dedication ? `For my ${diya.dedication}` : "")) : "";
 
   return new ImageResponse(
     (
@@ -33,8 +38,8 @@ export async function GET(
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: "#0B1030",
-          backgroundImage: "radial-gradient(circle at 50% 35%, #1E2660 0%, #0B1030 80%)",
+          backgroundColor: "#140206",
+          backgroundImage: "radial-gradient(circle at 50% 35%, #3B0A17 0%, #140206 80%)",
           color: "#FFF8EB",
           padding: "80px 70px",
           fontFamily: "serif",

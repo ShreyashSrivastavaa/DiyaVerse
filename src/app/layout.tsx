@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B1030",
+  themeColor: "#140206",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -57,7 +57,7 @@ export default function RootLayout({
       lang="en"
       className="scroll-smooth"
     >
-      <body className="bg-night-950 text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
+      <body className="text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
         <ToastProvider>
           <a
             href="#main-content"
