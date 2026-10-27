@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { DiyaSprite, DiyaStyle } from "./DiyaSprite";
+import { MatchstickIgniter } from "./MatchstickIgniter";
 
 interface StylePickerProps {
   selected: DiyaStyle;
@@ -18,11 +19,57 @@ const STYLES: { id: DiyaStyle; name: string; hindiName: string; desc: string }[]
 ];
 
 export const StylePicker: React.FC<StylePickerProps> = ({ selected, onChange, disabled }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  const [strikePos, setStrikePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isIgniting, setIsIgniting] = useState(false);
+  const [justIgnited, setJustIgnited] = useState<string | null>(null);
+
+  const handleSelectStyle = (styleId: DiyaStyle) => {
+    if (disabled) return;
+
+    // Trigger matchstick animation if choosing a new style or tapping
+    const btn = buttonRefs.current[styleId];
+    const container = containerRef.current;
+
+    if (btn && container) {
+      const bRect = btn.getBoundingClientRect();
+      const cRect = container.getBoundingClientRect();
+      setStrikePos({
+        x: bRect.left - cRect.left + bRect.width / 2,
+        y: bRect.top - cRect.top + 26, // touches the wick
+      });
+      setIsIgniting(true);
+      setJustIgnited(styleId);
+    }
+
+    onChange(styleId);
+  };
+
   return (
-    <div className="w-full">
-      <label id="style-picker-label" className="block text-sm font-medium text-ivory-300 mb-3">
-        1. Choose Diya Style / दीया का प्रकार चुनें
-      </label>
+    <div ref={containerRef} className="relative w-full overflow-visible select-none">
+      {/* Flying & Striking Matchstick with Festive Golden Sparks */}
+      <MatchstickIgniter
+        targetX={strikePos.x}
+        targetY={strikePos.y}
+        isIgniting={isIgniting}
+        onIgnitionComplete={() => {
+          setIsIgniting(false);
+          setJustIgnited(null);
+        }}
+      />
+
+      <div className="flex items-center justify-between mb-3">
+        <label id="style-picker-label" className="block text-sm font-medium text-ivory-300">
+          1. Choose Diya Style / दीया का प्रकार चुनें
+        </label>
+        <span className="text-[11px] text-flame-400 font-hindi flex items-center gap-1.5 animate-pulse">
+          <span>🔥</span>
+          <span>दीया चुनने पर तीली से प्रज्वलित होगा</span>
+        </span>
+      </div>
+
       <div
         role="radiogroup"
         aria-labelledby="style-picker-label"
@@ -30,28 +77,56 @@ export const StylePicker: React.FC<StylePickerProps> = ({ selected, onChange, di
       >
         {STYLES.map((style) => {
           const isSelected = selected === style.id;
+          const isIgnitedNow = justIgnited === style.id;
+
           return (
             <button
               key={style.id}
+              ref={(el) => {
+                buttonRefs.current[style.id] = el;
+              }}
               type="button"
               role="radio"
               aria-checked={isSelected}
               disabled={disabled}
-              onClick={() => onChange(style.id)}
-              className={`min-h-[110px] p-3 rounded-xl border flex flex-col items-center justify-between transition-all duration-200 outline-none focus:ring-2 focus:ring-flame-400 ${
+              onClick={() => handleSelectStyle(style.id)}
+              className={`relative min-h-[114px] p-3 rounded-2xl border flex flex-col items-center justify-between transition-all duration-300 outline-none focus:ring-2 focus:ring-flame-400 group overflow-hidden ${
                 isSelected
-                  ? "bg-night-800/90 border-flame-400 shadow-[0_0_15px_rgba(255,159,28,0.3)] scale-[1.02]"
-                  : "bg-night-900/60 border-night-800 hover:border-night-700 hover:bg-night-850 opacity-80 hover:opacity-100"
+                  ? "bg-night-800/95 border-flame-400 shadow-[0_0_22px_rgba(255,159,28,0.35)] scale-[1.03]"
+                  : "bg-night-900/60 border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 opacity-75 hover:opacity-95"
               } ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
             >
-              <div className="w-16 h-12 flex items-center justify-center pointer-events-none">
-                <DiyaSprite style={style.id} size="sm" isLit={true} />
+              {/* Ignition Flash Ring */}
+              {isIgnitedNow && (
+                <span className="absolute inset-0 rounded-2xl bg-flame-400/20 animate-ping pointer-events-none" />
+              )}
+
+              {/* Ambient warmth underneath lit diya */}
+              {isSelected && (
+                <div
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-flame-400/20 blur-xl pointer-events-none"
+                  aria-hidden="true"
+                />
+              )}
+
+              {/* Diya Sprite: Lit when selected, unlit awaiting matchstick when unselected */}
+              <div
+                className={`w-16 h-12 flex items-center justify-center pointer-events-none transition-transform duration-300 ${
+                  isIgnitedNow ? "scale-125" : isSelected ? "scale-105" : "scale-95 group-hover:scale-100"
+                }`}
+              >
+                <DiyaSprite style={style.id} size="sm" isLit={isSelected} />
               </div>
-              <div className="text-center mt-2">
-                <span className={`block text-xs font-semibold ${isSelected ? "text-flame-300" : "text-ivory-100"}`}>
+
+              <div className="text-center mt-2 relative z-10">
+                <span
+                  className={`block text-xs font-semibold transition-colors ${
+                    isSelected ? "text-flame-300" : "text-ivory-100 group-hover:text-flame-200"
+                  }`}
+                >
                   {style.name}
                 </span>
-                <span className="block text-[10px] text-ivory-300/70 font-hindi">
+                <span className="block text-[10px] text-ivory-300/70 font-hindi mt-0.5">
                   {style.hindiName}
                 </span>
               </div>
