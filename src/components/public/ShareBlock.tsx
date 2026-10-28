@@ -42,40 +42,57 @@ export const ShareBlock: React.FC = () => {
 
   return (
     <section className="py-14 px-4 max-w-4xl mx-auto text-center">
-      <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-night-900 to-night-950 border border-flame-400/25 relative overflow-hidden shadow-[0_0_30px_rgba(255,159,28,0.1)]">
-        <div className="relative z-10 max-w-xl mx-auto space-y-4">
-          <span className="text-3xl">🪔</span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-ivory-50">
-            Invite Your Friends & Family to Light a Diya
-          </h2>
-          <p className="text-sm text-ivory-300 leading-relaxed font-hindi">
-            अपनों को जोड़ें और इस दिवाली हर घर तक खुशियों का दीया पहुंचाएं
-          </p>
+      {/* Festive Bulb Marquee Frame Box */}
+      <div className="relative w-full rounded-[34px] sm:rounded-[38px] shadow-[0_0_50px_rgba(255,159,28,0.25)] sm:aspect-[2.73/1] flex items-center justify-center">
+        {/* Bulb Marquee Background Frame */}
+        <div
+          className="absolute inset-0 bg-no-repeat bg-center bg-[length:100%_100%] pointer-events-none rounded-[34px] sm:rounded-[38px]"
+          style={{ backgroundImage: "url('/marquee-frame.png')" }}
+          aria-hidden="true"
+        />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-            <button
-              type="button"
-              onClick={handleWhatsApp}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm text-white bg-[#25D366] hover:bg-[#20ba5a] transition-all flex items-center justify-center gap-2 shadow min-h-[48px] cursor-pointer"
-            >
-              <span>Share on WhatsApp</span>
-            </button>
+        {/* Soft Warm Bulb Ambient Glow */}
+        <div
+          className="absolute -inset-1 rounded-[38px] bg-flame-400/10 blur-xl pointer-events-none"
+          aria-hidden="true"
+        />
 
-            <button
-              type="button"
-              onClick={handleNative}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm text-night-950 bg-flame-400 hover:bg-flame-300 transition-all flex items-center justify-center gap-2 shadow min-h-[48px] cursor-pointer"
-            >
-              <span>Share DiyaVerse</span>
-            </button>
+        {/* Content Container: Positioned inside the glowing bulb border */}
+        <div className="relative z-10 w-full px-6 py-9 sm:px-12 sm:py-8 md:px-14 md:py-9">
+          <div className="max-w-xl mx-auto space-y-3 sm:space-y-3.5">
+            <span className="text-3xl block">🪔</span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-ivory-50 tracking-wide drop-shadow-md">
+              Invite Your Friends & Family to Light a Diya
+            </h2>
+            <p className="text-sm text-ivory-200/90 leading-relaxed font-hindi">
+              अपनों को जोड़ें और इस दिवाली हर घर तक खुशियों का दीया पहुंचाएं
+            </p>
 
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="w-full sm:w-auto px-5 py-3 rounded-xl font-medium text-sm text-ivory-200 bg-night-850 hover:bg-night-800 border border-night-700 transition-colors flex items-center justify-center gap-2 min-h-[48px] cursor-pointer"
-            >
-              <span>{copied ? "Link Copied!" : "Copy Link"}</span>
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={handleWhatsApp}
+                className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm text-white bg-[#25D366] hover:bg-[#20ba5a] transition-all flex items-center justify-center gap-2 shadow-lg min-h-[46px] cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Share on WhatsApp</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleNative}
+                className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm text-night-950 bg-flame-400 hover:bg-flame-300 transition-all flex items-center justify-center gap-2 shadow-lg min-h-[46px] cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Share DiyaVerse</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="w-full sm:w-auto px-5 py-3 rounded-xl font-medium text-sm text-ivory-200 bg-night-850/80 hover:bg-night-800 border border-flame-400/25 transition-colors flex items-center justify-center gap-2 min-h-[46px] cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>{copied ? "Link Copied!" : "Copy Link"}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
