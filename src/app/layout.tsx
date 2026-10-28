@@ -25,6 +25,17 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "DiyaVerse" }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "DiyaVerse | This Diwali, Let's Light India Together",
     description:
@@ -32,11 +43,20 @@ export const metadata: Metadata = {
     siteName: "DiyaVerse",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "DiyaVerse Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "DiyaVerse | This Diwali, Let's Light India Together",
     description: "Light a virtual diya and share your Diwali wish.",
+    images: ["/logo.png"],
   },
 };
 
