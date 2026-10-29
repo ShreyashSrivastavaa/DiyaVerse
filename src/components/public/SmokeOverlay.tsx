@@ -3,36 +3,36 @@
 import React, { useEffect, useRef } from "react";
 
 // =========================================================================
-// TWEAKABLE CONSTANTS (Tune Smoke & Diya Ember Intensity)
+// TWEAKABLE CONSTANTS (Dense & Rich Background Smoke Across Full Site)
 // =========================================================================
 export const SMOKE_CONFIG = {
-  // Particle counts
-  desktopParticleCount: 60,
-  mobileParticleCount: 28,
+  // Particle counts across the full viewport
+  desktopParticleCount: 70,
+  mobileParticleCount: 35,
 
-  // Opacity & Color: warm grey-gold / amber smoke (subtle & elegant)
-  baseOpacity: 0.065, // Peak opacity per puff (0.04 to 0.10 recommended)
-  colorRgb: "255, 222, 172", // Warm grey-gold tone
-  secondaryColorRgb: "245, 205, 150", // Soft ambient warmth
+  // Opacity & Warm Golden Color (denser as requested)
+  baseOpacity: 0.11, // Rich, velvety & clearly visible (dense golden-smoke)
+  colorRgb: "255, 224, 176", // Warm grey-gold tone
+  secondaryColorRgb: "255, 195, 120", // Warm amber glow tone
 
-  // Movement & Expansion
-  minRiseSpeed: 0.3, // Upward drift speed min
-  maxRiseSpeed: 0.7, // Upward drift speed max
-  driftAmplitude: 0.25, // Lateral gentle waft
-  expansionRate: 0.16, // How fast smoke expands as it rises
+  // Movement & Gentle Rising Float
+  minRiseSpeed: 0.4, // Slow graceful upward drift
+  maxRiseSpeed: 0.9,
+  driftAmplitude: 0.4, // Lateral gentle waft
+  expansionRate: 0.32, // Expands gracefully across the background
 
-  // Dimensions
-  initialRadiusMin: 14,
-  initialRadiusMax: 26,
-  maxRadius: 85,
+  // Dimensions for full-screen atmospheric puffs
+  initialRadiusMin: 45,
+  initialRadiusMax: 90,
+  maxRadius: 210,
 
-  // Spawn Area: bottom third where diyas are placed in hero image
-  spawnBottomFraction: 0.32, // Bottom 32% of hero artwork
+  // Spawn Area: throughout viewport and bottom
+  spawnBottomFraction: 0.5,
 
-  // Ambient Diya Warm Glow Pulse (bottom edge)
+  // Ambient Warm Diya Glow Pulse at bottom edge
   enableDiyaGlowPulse: true,
-  glowBaseOpacity: 0.07,
-  glowPulseRange: 0.03, // Gently breathes +/- 0.03
+  glowBaseOpacity: 0.08,
+  glowPulseRange: 0.04,
 };
 
 interface Particle {
@@ -78,19 +78,18 @@ export function SmokeOverlay() {
       ? SMOKE_CONFIG.mobileParticleCount
       : SMOKE_CONFIG.desktopParticleCount;
 
-    // Initialize particle pool
     const particles: Particle[] = [];
 
-    const createParticle = (spawnAnywhereInLowerThird = false): Particle => {
-      const spawnHeight = height * SMOKE_CONFIG.spawnBottomFraction;
-      const startY = spawnAnywhereInLowerThird
-        ? height - Math.random() * (spawnHeight * 1.5)
-        : height - Math.random() * spawnHeight;
+    const createParticle = (spawnAnywhere = false): Particle => {
+      // Span across entire viewport width with slight margin
+      const startX = width * (0.01 + Math.random() * 0.98);
 
-      // Span across the image where diyas are located (avoiding extreme edges)
-      const startX = width * (0.05 + Math.random() * 0.9);
+      // On initial start, distribute across full screen height; on respawn, spawn in bottom third
+      const startY = spawnAnywhere
+        ? height * Math.random()
+        : height + Math.random() * 20;
 
-      const maxLife = 180 + Math.random() * 160;
+      const maxLife = 260 + Math.random() * 220;
       const initialRadius =
         SMOKE_CONFIG.initialRadiusMin +
         Math.random() * (SMOKE_CONFIG.initialRadiusMax - SMOKE_CONFIG.initialRadiusMin);
@@ -107,15 +106,14 @@ export function SmokeOverlay() {
         radius: initialRadius,
         growth: SMOKE_CONFIG.expansionRate * (0.8 + Math.random() * 0.4),
         alpha: 0,
-        maxAlpha: SMOKE_CONFIG.baseOpacity * (0.7 + Math.random() * 0.6),
-        life: spawnAnywhereInLowerThird ? Math.random() * maxLife : 0,
+        maxAlpha: SMOKE_CONFIG.baseOpacity * (0.75 + Math.random() * 0.6),
+        life: spawnAnywhere ? Math.random() * maxLife * 0.8 : 0,
         maxLife,
         phase: Math.random() * Math.PI * 2,
         useSecondaryColor: Math.random() > 0.6,
       };
     };
 
-    // Pre-populate particles across their lifetime
     const initParticles = () => {
       particles.length = 0;
       for (let i = 0; i < targetParticleCount; i++) {
@@ -123,14 +121,14 @@ export function SmokeOverlay() {
       }
     };
 
-    // Handle high-DPI sizing
     const handleResize = () => {
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (w === 0 || h === 0) return;
 
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = rect.width;
-      height = rect.height;
+      width = w;
+      height = h;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -145,31 +143,25 @@ export function SmokeOverlay() {
 
     handleResize();
 
-    // ResizeObserver for responsive fluid scaling
-    const resizeObserver = new ResizeObserver(() => {
-      handleResize();
-    });
-    resizeObserver.observe(canvas);
+    window.addEventListener("resize", handleResize);
 
-    // If reduced motion is requested, render a single static soft haze at the diya level
     if (prefersReducedMotion) {
       const renderStaticHaze = () => {
         ctx.clearRect(0, 0, width, height);
-        const hazeGradient = ctx.createLinearGradient(0, height, 0, height * 0.65);
+        const hazeGradient = ctx.createLinearGradient(0, height, 0, height * 0.4);
         hazeGradient.addColorStop(0, `rgba(${SMOKE_CONFIG.colorRgb}, 0.08)`);
         hazeGradient.addColorStop(1, `rgba(${SMOKE_CONFIG.colorRgb}, 0)`);
         ctx.fillStyle = hazeGradient;
-        ctx.fillRect(0, height * 0.65, width, height * 0.35);
+        ctx.fillRect(0, 0, width, height);
       };
       renderStaticHaze();
-      return () => resizeObserver.disconnect();
+      return () => window.removeEventListener("resize", handleResize);
     }
 
     let time = 0;
 
-    // Animation Loop
     const render = () => {
-      if (!isVisible || !isIntersecting) {
+      if (!isVisible) {
         animId = null;
         return;
       }
@@ -177,22 +169,22 @@ export function SmokeOverlay() {
       time += 0.016;
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Subtle warm ambient diya flicker at the bottom
+      // 1. Subtle warm ambient diya flicker at the bottom edge of viewport
       if (SMOKE_CONFIG.enableDiyaGlowPulse) {
         const glowAlpha =
           SMOKE_CONFIG.glowBaseOpacity +
-          Math.sin(time * 2.2) * (SMOKE_CONFIG.glowPulseRange * 0.5) +
-          Math.sin(time * 3.7) * (SMOKE_CONFIG.glowPulseRange * 0.5);
+          Math.sin(time * 2.1) * (SMOKE_CONFIG.glowPulseRange * 0.5) +
+          Math.sin(time * 3.4) * (SMOKE_CONFIG.glowPulseRange * 0.5);
 
         const glowGrad = ctx.createRadialGradient(
           width * 0.5,
-          height * 0.92,
-          10,
+          height,
+          30,
           width * 0.5,
-          height * 0.92,
-          width * 0.45,
+          height,
+          width * 0.65,
         );
-        glowGrad.addColorStop(0, `rgba(255, 175, 75, ${Math.max(0, glowAlpha)})`);
+        glowGrad.addColorStop(0, `rgba(255, 180, 80, ${Math.max(0, glowAlpha)})`);
         glowGrad.addColorStop(0.5, `rgba(255, 140, 40, ${Math.max(0, glowAlpha * 0.4)})`);
         glowGrad.addColorStop(1, "rgba(255, 120, 20, 0)");
 
@@ -200,27 +192,24 @@ export function SmokeOverlay() {
         ctx.fillRect(0, height * 0.6, width, height * 0.4);
       }
 
-      // 2. Render and update smoke particles
+      // 2. Render atmospheric smoke puffs
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.life++;
 
-        // Life cycle progression: 0 to 1
         const progress = p.life / p.maxLife;
 
-        // Soft smooth fade-in then fade-out curve (sine-based)
+        // Smooth sine fade-in & fade-out curve
         p.alpha = Math.sin(progress * Math.PI) * p.maxAlpha;
 
-        // Drifts upward and gently waves sideways
-        p.x += p.vx + Math.sin(p.phase + time * 1.2) * 0.2;
+        // Upward float with gentle lateral drift
+        p.x += p.vx + Math.sin(p.phase + time * 1.2) * 0.3;
         p.y += p.vy;
 
-        // Radius expands gracefully as puff ascends
         if (p.radius < SMOKE_CONFIG.maxRadius) {
           p.radius += p.growth;
         }
 
-        // Draw soft radial puff
         if (p.alpha > 0.001) {
           const color = p.useSecondaryColor
             ? SMOKE_CONFIG.secondaryColorRgb
@@ -228,8 +217,8 @@ export function SmokeOverlay() {
 
           const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
           grad.addColorStop(0, `rgba(${color}, ${p.alpha})`);
-          grad.addColorStop(0.45, `rgba(${color}, ${p.alpha * 0.65})`);
-          grad.addColorStop(0.8, `rgba(${color}, ${p.alpha * 0.2})`);
+          grad.addColorStop(0.35, `rgba(${color}, ${p.alpha * 0.65})`);
+          grad.addColorStop(0.7, `rgba(${color}, ${p.alpha * 0.25})`);
           grad.addColorStop(1, `rgba(${color}, 0)`);
 
           ctx.fillStyle = grad;
@@ -238,8 +227,8 @@ export function SmokeOverlay() {
           ctx.fill();
         }
 
-        // Respawn when particle completes its lifespan or drifts too high
-        if (p.life >= p.maxLife || p.y < height * 0.2) {
+        // Respawn when particle completes its lifespan or ascends past top of viewport
+        if (p.life >= p.maxLife || p.y < -SMOKE_CONFIG.maxRadius) {
           particles[i] = createParticle(false);
         }
       }
@@ -248,7 +237,7 @@ export function SmokeOverlay() {
     };
 
     const startAnimation = () => {
-      if (!animId && isVisible && isIntersecting) {
+      if (!animId && isVisible) {
         animId = requestAnimationFrame(render);
       }
     };
@@ -260,7 +249,6 @@ export function SmokeOverlay() {
       }
     };
 
-    // Pause when tab is inactive / hidden
     const handleVisibilityChange = () => {
       isVisible = document.visibilityState === "visible";
       if (isVisible) {
@@ -271,36 +259,19 @@ export function SmokeOverlay() {
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Pause when hero is scrolled out of viewport
-    const intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        isIntersecting = Boolean(entry && entry.isIntersecting);
-        if (isIntersecting) {
-          startAnimation();
-        } else {
-          stopAnimation();
-        }
-      },
-      { threshold: 0.05 },
-    );
-    intersectionObserver.observe(canvas);
-
-    // Initial kickoff
     startAnimation();
 
     return () => {
       stopAnimation();
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      intersectionObserver.disconnect();
-      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-10"
+      className="fixed inset-0 w-screen h-screen pointer-events-none z-[1]"
       style={{
         mixBlendMode: "screen",
       }}

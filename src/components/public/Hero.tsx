@@ -6,10 +6,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { trackEvent } from "@/lib/analytics/client";
 
-const SmokeOverlay = dynamic(
-  () => import("./SmokeOverlay").then((mod) => mod.SmokeOverlay),
-  { ssr: false },
-);
 
 export const Hero: React.FC = () => {
   return (
@@ -56,8 +52,6 @@ export const Hero: React.FC = () => {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
               className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.015]"
             />
-            {/* Cinematic animated smoke overlay */}
-            <SmokeOverlay />
           </div>
         </div>
 

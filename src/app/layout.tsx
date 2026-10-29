@@ -6,6 +6,7 @@ import { Footer } from "@/components/public/Footer";
 import { ConsentBanner } from "@/components/public/ConsentBanner";
 import { ToastProvider } from "@/components/ui/Toast";
 import { Analytics } from "@vercel/analytics/next";
+import { SiteAtmosphere } from "@/components/public/SiteAtmosphere";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -123,6 +124,9 @@ export default function RootLayout({
     >
       <body className="text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
         <ToastProvider>
+          {/* Dense cinematic smoke & festive jukebox audio player across entire site */}
+          <SiteAtmosphere />
+
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-flame-400 text-night-950 font-bold rounded-lg shadow-lg"
