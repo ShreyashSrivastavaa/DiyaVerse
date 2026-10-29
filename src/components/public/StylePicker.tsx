@@ -60,8 +60,8 @@ export const StylePicker: React.FC<StylePickerProps> = ({ selected, onChange, di
         }}
       />
 
-      <div className="flex items-center justify-between mb-3">
-        <label id="style-picker-label" className="block text-sm font-medium text-ivory-300">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
+        <label id="style-picker-label" className="block text-sm font-semibold text-ivory-200">
           1. Choose Diya Style / दीया का प्रकार चुनें
         </label>
         <span className="text-[11px] text-flame-400 font-hindi flex items-center gap-1.5 animate-pulse">
@@ -73,7 +73,7 @@ export const StylePicker: React.FC<StylePickerProps> = ({ selected, onChange, di
       <div
         role="radiogroup"
         aria-labelledby="style-picker-label"
-        className="grid grid-cols-2 sm:grid-cols-5 gap-3"
+        className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2.5 sm:gap-3"
       >
         {STYLES.map((style) => {
           const isSelected = selected === style.id;
@@ -90,7 +90,7 @@ export const StylePicker: React.FC<StylePickerProps> = ({ selected, onChange, di
               aria-checked={isSelected}
               disabled={disabled}
               onClick={() => handleSelectStyle(style.id)}
-              className={`relative min-h-[114px] p-3 rounded-2xl border flex flex-col items-center justify-between transition-all duration-300 outline-none focus:ring-2 focus:ring-flame-400 group overflow-hidden ${
+              className={`relative min-h-[114px] p-3 rounded-2xl border flex flex-col items-center justify-between transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-flame-400 group overflow-hidden last:col-span-2 xs:last:col-span-1 ${
                 isSelected
                   ? "bg-night-800/95 border-flame-400 shadow-[0_0_22px_rgba(255,159,28,0.35)] scale-[1.03]"
                   : "bg-night-900/60 border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 opacity-75 hover:opacity-95"
