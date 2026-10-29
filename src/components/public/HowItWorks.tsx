@@ -26,8 +26,8 @@ const STEPS = [
 
 export const HowItWorks: React.FC = () => {
   return (
-    <section className="py-16 max-w-5xl mx-auto px-4">
-      <div className="text-center mb-12">
+    <section className="py-12 sm:py-16 max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="text-center mb-10 sm:mb-12">
         <h2 className="text-xs uppercase tracking-widest text-flame-400 font-bold mb-2">
           Simple & Meaningful
         </h2>
@@ -36,11 +36,11 @@ export const HowItWorks: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
         {STEPS.map((step) => (
           <div
             key={step.num}
-            className="p-6 rounded-2xl bg-night-900/60 border border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 transition-all duration-300 relative flex flex-col justify-between group shadow-sm hover:shadow-[0_0_20px_rgba(255,159,28,0.1)]"
+            className="p-5 sm:p-6 rounded-2xl bg-night-900/60 border border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 transition-all duration-300 relative flex flex-col justify-between group shadow-sm hover:shadow-[0_0_20px_rgba(255,159,28,0.1)]"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -55,7 +55,7 @@ export const HowItWorks: React.FC = () => {
               <p className="text-xs font-hindi text-flame-400/80 mb-3">
                 {step.hindiTitle}
               </p>
-              <p className="text-sm text-ivory-300/80 leading-relaxed">
+              <p className="text-base text-ivory-200/90 leading-relaxed">
                 {step.desc}
               </p>
             </div>

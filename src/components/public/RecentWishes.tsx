@@ -49,8 +49,8 @@ export const RecentWishes: React.FC<RecentWishesProps> = ({ initialDiyas = [] })
   }
 
   return (
-    <section className="py-16 max-w-6xl mx-auto px-4">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-2">
+    <section className="py-12 sm:py-16 max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
         <div>
           <h2 className="text-xs uppercase tracking-widest text-flame-400 font-bold mb-1">
             Glow of Unity
@@ -61,7 +61,7 @@ export const RecentWishes: React.FC<RecentWishesProps> = ({ initialDiyas = [] })
         </div>
         <Link
           href="/wall"
-          className="text-xs font-semibold text-flame-400 hover:text-flame-300 transition-colors flex items-center gap-1 group"
+          className="text-sm font-semibold text-flame-400 hover:text-flame-300 transition-colors inline-flex items-center gap-1 group min-h-[44px]"
         >
           <span>View All on Diya Wall</span>
           <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -73,7 +73,7 @@ export const RecentWishes: React.FC<RecentWishesProps> = ({ initialDiyas = [] })
           <Link
             key={diya.publicId}
             href={`/d/${diya.publicId}`}
-            className="p-5 rounded-2xl bg-night-900/60 border border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 transition-all duration-300 flex flex-col justify-between group shadow-sm hover:shadow-[0_0_20px_rgba(255,159,28,0.12)]"
+            className="p-5 rounded-2xl bg-night-900/60 border border-night-800 hover:border-flame-400/40 hover:bg-night-850/80 transition-all duration-300 flex flex-col justify-between group shadow-sm hover:shadow-[0_0_20px_rgba(255,159,28,0.12)] min-h-[140px]"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -86,7 +86,7 @@ export const RecentWishes: React.FC<RecentWishesProps> = ({ initialDiyas = [] })
                   </span>
                 )}
               </div>
-              <p className="text-sm font-serif italic text-ivory-100 group-hover:text-flame-200 transition-colors line-clamp-3 leading-relaxed">
+              <p className="text-base font-serif italic text-ivory-100 group-hover:text-flame-200 transition-colors line-clamp-3 leading-relaxed">
                 &ldquo;{diya.wishText}&rdquo;
               </p>
             </div>
