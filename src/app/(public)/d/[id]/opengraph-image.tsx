@@ -1,10 +1,37 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "next/og";
 import { prisma } from "@/lib/db";
+import fs from "fs";
+import path from "path";
 
 export const runtime = "nodejs";
 export const alt = "DiyaVerse Lit Diya Greeting Card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const STYLE_IMAGE_MAP: Record<string, string> = {
+  marigold: "diya-marigold.png",
+  rangoli: "diya-rangoli.png",
+  golden: "diya-golden.png",
+  brass: "diya-golden.png",
+  lotus: "diya-lotus.png",
+  clay: "diya-niche.png",
+};
+
+function getDiyaBase64(style?: string | null): string {
+  const normalized = (style || "").toLowerCase();
+  const filename = STYLE_IMAGE_MAP[normalized] || "diya-niche.png";
+  try {
+    const filePath = path.join(process.cwd(), "public", filename);
+    if (fs.existsSync(filePath)) {
+      const buf = fs.readFileSync(filePath);
+      return `data:image/png;base64,${buf.toString("base64")}`;
+    }
+  } catch (err) {
+    console.error("Failed to load diya image for OG:", err);
+  }
+  return "";
+}
 
 export default async function Image({
   params,
@@ -31,6 +58,8 @@ export default async function Image({
   const dedication =
     isVisible && diya ? (diya.dedicationText || (diya.dedication ? `For my ${diya.dedication}` : "")) : "";
 
+  const diyaBase64 = getDiyaBase64(diya?.style);
+
   return new ImageResponse(
     (
       <div
@@ -44,7 +73,7 @@ export default async function Image({
           backgroundColor: "#140206",
           backgroundImage: "radial-gradient(circle at 50% 30%, #3B0A17 0%, #140206 70%)",
           color: "#FFF8EB",
-          padding: "50px 80px",
+          padding: "40px 60px",
           fontFamily: "serif",
           position: "relative",
         }}
@@ -59,7 +88,7 @@ export default async function Image({
             bottom: 20,
             border: "1px solid rgba(255, 200, 87, 0.3)",
             borderRadius: 16,
-            pointerEvents: "none",
+            display: "flex",
           }}
         />
 
@@ -75,8 +104,8 @@ export default async function Image({
             letterSpacing: "0.05em",
           }}
         >
-          <span>🪔</span>
           <span>DIYAVERSE</span>
+          <span style={{ fontSize: 16, color: "#E9DFC8", fontWeight: 400 }}>• Shubh Deepavali</span>
         </div>
 
         {/* Central Diya Graphic */}
@@ -90,19 +119,39 @@ export default async function Image({
         >
           <div
             style={{
-              width: 100,
-              height: 100,
-              borderRadius: "50%",
-              backgroundColor: "rgba(255, 217, 138, 0.15)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 60,
-              marginBottom: 10,
-              boxShadow: "0 0 60px rgba(255, 159, 28, 0.5)",
+              marginBottom: 12,
             }}
           >
-            🪔
+            {diyaBase64 ? (
+              <img
+                src={diyaBase64}
+                width="150"
+                height="184"
+                alt="Lit Diya"
+                style={{
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255, 217, 138, 0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 60,
+                  boxShadow: "0 0 60px rgba(255, 159, 28, 0.5)",
+                }}
+              >
+                🪔
+              </div>
+            )}
           </div>
 
           {dedication && (
@@ -112,8 +161,9 @@ export default async function Image({
                 color: "#FFD98A",
                 textTransform: "uppercase",
                 letterSpacing: "0.15em",
-                marginBottom: 16,
+                marginBottom: 12,
                 fontWeight: 600,
+                display: "flex",
               }}
             >
               {dedication}
@@ -123,12 +173,13 @@ export default async function Image({
           {/* Wish Content */}
           <div
             style={{
-              fontSize: 32,
+              fontSize: 28,
               textAlign: "center",
               lineHeight: 1.4,
               color: "#FFF8EB",
               maxWidth: 900,
               fontStyle: "italic",
+              display: "flex",
             }}
           >
             &ldquo;{wishText}&rdquo;
@@ -139,17 +190,21 @@ export default async function Image({
         <div
           style={{
             display: "flex",
-            alignItems: "center",
             justifyContent: "space-between",
+            alignItems: "center",
             width: "100%",
-            fontSize: 16,
-            color: "#E9DFC8",
             borderTop: "1px solid rgba(255, 200, 87, 0.2)",
             paddingTop: 16,
+            paddingLeft: 20,
+            paddingRight: 20,
           }}
         >
-          <span>Happy Diwali • Light India Together</span>
-          <span style={{ color: "#FFC857" }}>diyaverse.in</span>
+          <div style={{ fontSize: 16, color: "#FFC857", fontWeight: 600, display: "flex" }}>
+            diyaverse.vercel.app
+          </div>
+          <div style={{ fontSize: 15, color: "#E9DFC8", display: "flex" }}>
+            This Diwali, Let&apos;s Light India Together
+          </div>
         </div>
       </div>
     ),
