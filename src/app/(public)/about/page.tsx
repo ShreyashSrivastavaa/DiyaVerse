@@ -115,6 +115,35 @@ export default function AboutPage() {
             For those who prefer not to type their own text, our team has handcrafted and validated a library of exactly 2,000 curated wishes across 10 distinct emotional categories in English, Hindi, and Hinglish. Each wish reflects optimism, harmony, and festive warmth.
           </p>
         </section>
+
+        <section className="p-6 rounded-2xl bg-gradient-to-r from-night-900/90 to-[#20040D]/80 border border-flame-400/30 space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-flame-400 uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-flame-400 animate-pulse" />
+            <span>Parent Company</span>
+          </div>
+          <h2 className="text-xl font-serif font-bold text-ivory-50">
+            A Product of ZenithDistrict
+          </h2>
+          <p className="text-sm text-ivory-300 leading-relaxed font-sans">
+            DiyaVerse is an independent festive digital experience created and operated by{" "}
+            <a
+              href="https://zenithdistrict.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-flame-400 font-semibold underline hover:text-flame-300"
+            >
+              ZenithDistrict
+            </a>
+            . For inquiries, partnerships, or press contact:{" "}
+            <a
+              href="mailto:zenithdistrict14@gmail.com"
+              className="text-flame-400 underline hover:text-flame-300"
+            >
+              zenithdistrict14@gmail.com
+            </a>
+            .
+          </p>
+        </section>
       </div>
 
       <div className="text-center pt-8 border-t border-night-800">

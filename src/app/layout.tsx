@@ -120,9 +120,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`scroll-smooth ${inter.variable} ${playfair.variable} ${notoDevanagari.variable}`}
     >
-      <body className="text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
+      <body
+        suppressHydrationWarning
+        className="text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950"
+      >
         <ToastProvider>
           {/* Dense cinematic smoke & festive jukebox audio player across entire site */}
           <SiteAtmosphere />

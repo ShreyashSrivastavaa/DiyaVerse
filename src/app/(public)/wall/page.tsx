@@ -6,6 +6,7 @@ import { WallCanvas, WallDiya } from "@/components/public/WallCanvas";
 import { WallSheet } from "@/components/public/WallSheet";
 import { WallList } from "@/components/public/WallList";
 import { ActivityStrip } from "@/components/public/ActivityStrip";
+import { MapDisclaimer } from "@/components/public/MapDisclaimer";
 import { trackEvent } from "@/lib/analytics/client";
 
 function WallContent() {
@@ -167,14 +168,15 @@ function WallContent() {
 
       {/* Primary Wall Renderers */}
       {viewMode === "canvas" ? (
-        <div aria-hidden={viewMode !== "canvas"}>
+        <figure className="relative w-full" aria-label="Sacred India Diya Wall Map">
           <WallCanvas
             diyas={diyas}
             focusedPublicId={activeFocusId}
             onSelectDiya={handleSelectDiya}
             activeLanguage={language}
           />
-        </div>
+          <MapDisclaimer className="mt-2.5" />
+        </figure>
       ) : (
         <WallList
           diyas={diyas}
