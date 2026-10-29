@@ -120,7 +120,7 @@ export const Counter: React.FC<CounterProps> = ({
   return (
     <section
       aria-live="polite"
-      className="my-8 px-6 py-6 max-w-2xl mx-auto rounded-2xl bg-gradient-to-r from-night-900/80 via-night-850 to-night-900/80 border border-flame-400/30 text-center shadow-[0_0_25px_rgba(255,159,28,0.12)]"
+      className="my-8 px-4 sm:px-6 py-6 max-w-2xl mx-auto rounded-2xl bg-gradient-to-r from-night-900/80 via-night-850 to-night-900/80 border border-flame-400/30 text-center shadow-[0_0_25px_rgba(255,159,28,0.12)]"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-night-800">
         {/* Diyas Lit Counter */}
