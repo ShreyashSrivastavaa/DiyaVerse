@@ -104,6 +104,9 @@ export const metadata: Metadata = {
       "Light a virtual diya online this Diwali 2026. Attach your heartfelt Diwali wishes and illuminate India together on DiyaVerse.",
     images: ["/opengraph-image"],
   },
+  verification: {
+    google: "m8KoSeRzU9slpYn6QHT5ZBRMnb_wkcU00sdc_B-ZPvg",
+  },
 };
 
 export const viewport: Viewport = {
