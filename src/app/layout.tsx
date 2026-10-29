@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Playfair_Display, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
@@ -6,25 +7,67 @@ import { ConsentBanner } from "@/components/public/ConsentBanner";
 import { ToastProvider } from "@/components/ui/Toast";
 import { Analytics } from "@vercel/analytics/next";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const notoDevanagari = Noto_Sans_Devanagari({
+  subsets: ["devanagari"],
+  variable: "--font-devanagari",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "DiyaVerse | This Diwali, Let's Light India Together",
+    default: "DiyaVerse | Light a Virtual Diya This Diwali",
     template: "%s | DiyaVerse",
   },
   description:
-    "Light a virtual diya in under ten seconds, attach your heartfelt wish, and join a real, truthful, nationwide wall of lights for Diwali.",
+    "Light a virtual diya online this Diwali 2026. Attach your heartfelt Diwali wishes, explore the sacred Diya Wall, and illuminate India together on DiyaVerse.",
   keywords: [
-    "Diwali",
-    "Diya",
+    "virtual diya",
+    "Diwali wishes",
+    "light a diya online",
+    "Diwali 2026",
     "DiyaVerse",
-    "Light a Diya",
-    "Diwali Wishes",
+    "Diwali",
     "Deepavali",
-    "Virtual Diya",
-    "India",
+    "Ramayana quiz online",
+    "Diya Wall",
+    "दीया जलाएं",
+    "दिवाली शुभकामनाएं",
+    "दीपावली",
   ],
   authors: [{ name: "DiyaVerse" }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  creator: "DiyaVerse",
+  publisher: "DiyaVerse",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  manifest: "/manifest.json",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -37,26 +80,28 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "DiyaVerse | This Diwali, Let's Light India Together",
+    title: "DiyaVerse | Light a Virtual Diya This Diwali",
     description:
-      "Light a virtual diya, attach a wish, and join our nationwide wall of lights this Diwali.",
+      "Light a virtual diya online this Diwali 2026. Attach your heartfelt Diwali wishes, explore the sacred Diya Wall, and illuminate India together on DiyaVerse.",
     siteName: "DiyaVerse",
     locale: "en_IN",
     type: "website",
+    url: siteUrl,
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "DiyaVerse Logo",
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "DiyaVerse - This Diwali, Let's Light India Together",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DiyaVerse | This Diwali, Let's Light India Together",
-    description: "Light a virtual diya and share your Diwali wish.",
-    images: ["/logo.png"],
+    title: "DiyaVerse | Light a Virtual Diya This Diwali",
+    description:
+      "Light a virtual diya online this Diwali 2026. Attach your heartfelt Diwali wishes and illuminate India together on DiyaVerse.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -64,7 +109,6 @@ export const viewport: Viewport = {
   themeColor: "#140206",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -75,7 +119,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="scroll-smooth"
+      className={`scroll-smooth ${inter.variable} ${playfair.variable} ${notoDevanagari.variable}`}
     >
       <body className="text-ivory-50 flex flex-col min-h-screen selection:bg-flame-500 selection:text-night-950">
         <ToastProvider>
