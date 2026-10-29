@@ -64,6 +64,14 @@ export function Footer() {
             </li>
             <li>
               <Link
+                href="/products"
+                className="hover:text-flame-400 transition-colors p-2 inline-block min-h-[44px] leading-[28px]"
+              >
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/wall"
                 className="text-flame-400 hover:text-flame-300 transition-colors p-2 inline-block min-h-[44px] leading-[28px]"
               >
@@ -75,9 +83,23 @@ export function Footer() {
       </div>
 
       <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-night-900 flex flex-col sm:flex-row items-center justify-between text-xs text-ivory-300/60 gap-4">
-        <p>© {new Date().getFullYear()} DiyaVerse. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} DiyaVerse • A venture by{" "}
+          <a
+            href="https://zenithdistrict.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-flame-400 hover:underline"
+          >
+            ZenithDistrict
+          </a>
+        </p>
         <p className="text-center sm:text-right">
-          Zero fabricated data • No signup required • Truthful collective light
+          Inquiries:{" "}
+          <a href="mailto:zenithdistrict14@gmail.com" className="text-flame-400/80 hover:text-flame-300 underline">
+            zenithdistrict14@gmail.com
+          </a>{" "}
+          • Zero fabricated data
         </p>
       </div>
     </footer>
