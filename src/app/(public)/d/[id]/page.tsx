@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/db";
-import { DiyaSprite, DiyaStyle } from "@/components/public/DiyaSprite";
 import { DiyaActions } from "@/components/public/DiyaActions";
 
 interface DiyaPageProps {
