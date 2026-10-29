@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/db";
 import { DiyaSprite, DiyaStyle } from "@/components/public/DiyaSprite";
 import { DiyaActions } from "@/components/public/DiyaActions";
@@ -170,22 +171,52 @@ export default async function DiyaPage({ params }: DiyaPageProps) {
         ? "For the world"
         : null));
 
+  const normalizedStyle = (diya.style || "").toLowerCase();
+  const diyaImageSrc =
+    normalizedStyle === "marigold"
+      ? "/diya-marigold.png"
+      : normalizedStyle === "rangoli"
+      ? "/diya-rangoli.png"
+      : normalizedStyle === "golden" || normalizedStyle === "brass"
+      ? "/diya-golden.png"
+      : normalizedStyle === "lotus"
+      ? "/diya-lotus.png"
+      : "/diya-niche.png";
+  const diyaAlt =
+    normalizedStyle === "marigold"
+      ? "Sacred Marigold Diya adorned with festive flowers in illuminated temple niche"
+      : normalizedStyle === "rangoli"
+      ? "Sacred Rangoli Diya adorned with ornate patterns in illuminated temple niche"
+      : normalizedStyle === "golden" || normalizedStyle === "brass"
+      ? "Sacred Golden Brass Diya in illuminated temple niche"
+      : normalizedStyle === "lotus"
+      ? "Sacred Lotus Diya in illuminated temple niche"
+      : "Sacred Diya in illuminated temple niche";
+
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 max-w-2xl mx-auto flex flex-col items-center">
+    <div className="min-h-screen py-12 px-4 sm:px-6 max-w-2xl sm:max-w-[620px] mx-auto flex flex-col items-center">
       <div className="w-full space-y-8 animate-fade-in">
         {/* Main Lit Diya Card */}
-        <div className="relative rounded-3xl bg-gradient-to-b from-night-900 to-night-950 border border-flame-400/30 p-8 sm:p-10 text-center shadow-[0_0_40px_rgba(255,159,28,0.18)] flex flex-col items-center">
+        <div className="relative rounded-3xl bg-gradient-to-b from-night-950/95 via-[#140308]/95 to-night-950/95 border border-ivory-100/35 sm:border-ivory-100/40 p-8 sm:p-11 text-center shadow-[0_0_50px_rgba(255,159,28,0.2)] flex flex-col items-center overflow-hidden">
           {/* Subtle radiant background glow */}
-          <div className="absolute top-1/4 w-56 h-56 bg-flame-400/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/4 w-72 h-72 bg-flame-400/20 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Diya Sprite */}
-          <div className="mb-6">
-            <DiyaSprite style={diya.style as DiyaStyle} size="hero" isLit={true} />
+          {/* Diya in Sacred Niche / Alcove */}
+          <div className="relative mb-6 sm:mb-7 flex items-center justify-center">
+            <div className="absolute inset-0 bg-flame-500/25 rounded-full blur-2xl transform scale-90 pointer-events-none" />
+            <Image
+              src={diyaImageSrc}
+              alt={diyaAlt}
+              width={240}
+              height={294}
+              priority
+              className="relative z-10 w-44 sm:w-52 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,165,30,0.35)] transition-transform duration-500 hover:scale-[1.02]"
+            />
           </div>
 
           {/* Dedication Tag */}
           {resolvedDedication && (
-            <span className="inline-block px-3.5 py-1 rounded-full bg-flame-400/10 border border-flame-400/25 text-xs text-flame-300 font-medium tracking-wider uppercase mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-flame-400/10 border border-flame-400/30 text-xs text-flame-300 font-medium tracking-wider uppercase mb-3.5 shadow-sm">
               {resolvedDedication}
             </span>
           )}
@@ -196,7 +227,7 @@ export default async function DiyaPage({ params }: DiyaPageProps) {
           </blockquote>
 
           {/* Diya metadata footer */}
-          <div className="flex items-center justify-center gap-2 text-xs text-ivory-300/60 font-mono mt-2">
+          <div className="flex items-center justify-center gap-2 text-xs text-ivory-300/60 font-mono mt-1">
             <span>Diya #{diya.publicId}</span>
             <span>•</span>
             <span>
