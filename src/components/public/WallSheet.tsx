@@ -19,7 +19,7 @@ export const WallSheet: React.FC<WallSheetProps> = ({ diya, onClose }) => {
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose} />
-      <div className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto bg-night-900 border-t border-flame-400/30 rounded-t-3xl p-6 sm:p-8 shadow-2xl animate-slide-up text-left space-y-5">
+      <div className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto bg-night-900 border-t border-flame-400/30 rounded-t-3xl p-6 sm:p-8 pb-[max(1.5rem,env(safe-area-inset-bottom))] max-h-[85dvh] overflow-y-auto shadow-2xl animate-slide-up text-left space-y-5">
         <div className="flex items-center justify-between pb-2 border-b border-night-800">
           <div className="flex items-center gap-3">
             <div className="w-10 h-8 flex items-center justify-center">

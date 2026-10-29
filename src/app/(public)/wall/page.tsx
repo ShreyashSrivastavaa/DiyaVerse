@@ -26,6 +26,16 @@ function WallContent() {
     }
   }, [focusedPublicId]);
 
+  // When focusedPublicId is present, auto-open the sheet for that diya once data is loaded
+  useEffect(() => {
+    if (focusedPublicId && diyas.length > 0 && !selectedDiya) {
+      const match = diyas.find((d) => d.publicId === focusedPublicId);
+      if (match) {
+        setSelectedDiya(match);
+      }
+    }
+  }, [focusedPublicId, diyas, selectedDiya]);
+
   // Filters
   const [language, setLanguage] = useState<string>("all");
   const [category, setCategory] = useState<string>("all");
@@ -88,14 +98,14 @@ function WallContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-6 overflow-x-hidden min-w-0">
       {/* Wall Header & Controls */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-night-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-night-800 pb-5 sm:pb-6">
         <div>
           <span className="text-xs uppercase font-bold tracking-widest text-flame-400">
             Collective Light • अखंड दीप
           </span>
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-ivory-50 mt-1">
+          <h1 className="text-2xl sm:text-4xl font-serif font-bold text-ivory-50 mt-1">
             The Diya Wall
           </h1>
           <p className="text-xs sm:text-sm text-ivory-300/80 mt-1">
@@ -104,16 +114,16 @@ function WallContent() {
         </div>
 
         {/* View mode toggle & Filter selections */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto">
           {/* View toggle */}
-          <div className="bg-night-900 border border-night-800 rounded-xl p-1 flex items-center">
+          <div className="bg-night-900 border border-night-800 rounded-xl p-1 flex items-center flex-1 sm:flex-initial justify-center">
             <button
               type="button"
               onClick={() => setViewMode("canvas")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer min-h-[36px] ${
+              className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer min-h-[36px] ${
                 viewMode === "canvas"
                   ? "bg-flame-400 text-night-950 font-semibold"
-                  : "text-ivory-300 hover:text-ivory-100"
+                  : "text-ivory-300 hover:text-ivory-50"
               }`}
             >
               Canvas View 🌌
@@ -121,45 +131,47 @@ function WallContent() {
             <button
               type="button"
               onClick={() => setViewMode("list")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer min-h-[36px] ${
+              className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer min-h-[36px] ${
                 viewMode === "list"
                   ? "bg-flame-400 text-night-950 font-semibold"
-                  : "text-ivory-300 hover:text-ivory-100"
+                  : "text-ivory-300 hover:text-ivory-50"
               }`}
             >
               List View 📜
             </button>
           </div>
 
-          {/* Language filter */}
-          <select
-            value={language}
-            onChange={(e) => handleFilterLanguageChange(e.target.value)}
-            className="px-3 py-2 bg-night-900 border border-night-800 rounded-xl text-xs text-ivory-100 outline-none focus:ring-1 focus:ring-flame-400 min-h-[40px] cursor-pointer"
-          >
-            <option value="all">All Languages</option>
-            <option value="en">English</option>
-            <option value="hi">हिन्दी (Hindi)</option>
-            <option value="hinglish">Hinglish</option>
-          </select>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            {/* Language filter */}
+            <select
+              value={language}
+              onChange={(e) => handleFilterLanguageChange(e.target.value)}
+              className="flex-1 sm:flex-initial px-3 py-2 bg-night-900 border border-night-800 rounded-xl text-xs text-ivory-100 outline-none focus:ring-1 focus:ring-flame-400 min-h-[40px] cursor-pointer"
+            >
+              <option value="all">All Languages</option>
+              <option value="en">English</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="hinglish">Hinglish</option>
+            </select>
 
-          {/* Category filter */}
-          <select
-            value={category}
-            onChange={(e) => handleFilterCategoryChange(e.target.value)}
-            className="px-3 py-2 bg-night-900 border border-night-800 rounded-xl text-xs text-ivory-100 outline-none focus:ring-1 focus:ring-flame-400 min-h-[40px] cursor-pointer"
-          >
-            <option value="all">All Categories</option>
-            <option value="happiness">Happiness & Positivity</option>
-            <option value="family">Family & Togetherness</option>
-            <option value="love">Love & Relationships</option>
-            <option value="health">Health & Peace</option>
-            <option value="success">Success & Prosperity</option>
-            <option value="friendship">Friendship & Gratitude</option>
-            <option value="hope">Hope & New Beginnings</option>
-            <option value="universal">Universal Blessings</option>
-            <option value="funny">Funny & Lighthearted</option>
-          </select>
+            {/* Category filter */}
+            <select
+              value={category}
+              onChange={(e) => handleFilterCategoryChange(e.target.value)}
+              className="flex-1 sm:flex-initial px-3 py-2 bg-night-900 border border-night-800 rounded-xl text-xs text-ivory-100 outline-none focus:ring-1 focus:ring-flame-400 min-h-[40px] cursor-pointer"
+            >
+              <option value="all">All Categories</option>
+              <option value="happiness">Happiness & Positivity</option>
+              <option value="family">Family & Togetherness</option>
+              <option value="love">Love & Relationships</option>
+              <option value="health">Health & Peace</option>
+              <option value="success">Success & Prosperity</option>
+              <option value="friendship">Friendship & Gratitude</option>
+              <option value="hope">Hope & New Beginnings</option>
+              <option value="universal">Universal Blessings</option>
+              <option value="funny">Funny & Lighthearted</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -168,7 +180,7 @@ function WallContent() {
 
       {/* Primary Wall Renderers */}
       {viewMode === "canvas" ? (
-        <figure className="relative w-full" aria-label="Sacred India Diya Wall Map">
+        <figure className="relative w-full max-w-full min-w-0" aria-label="Sacred India Diya Wall Map">
           <WallCanvas
             diyas={diyas}
             focusedPublicId={activeFocusId}

@@ -256,8 +256,20 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     isDragging: false,
     startX: 0,
     startY: 0,
+    pointerDownPos: { x: 0, y: 0 },
     hasMoved: false,
   });
+
+  // Multi-touch pinch-to-zoom tracking for mobile & Safari
+  const activePointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const touchStateRef = useRef<{
+    startDist: number;
+    startScale: number;
+    startMidX: number;
+    startMidY: number;
+    startCamX: number;
+    startCamY: number;
+  } | null>(null);
 
   const animFrameId = useRef<number | null>(null);
   const animTimeRef = useRef<number>(0);
@@ -289,9 +301,13 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
   }, []);
 
   // 2. Responsive dimensions
-  const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
-    width: 900,
-    height: 700,
+  const [dimensions, setDimensions] = useState<{ width: number; height: number }>(() => {
+    if (typeof window !== "undefined") {
+      const w = Math.min(window.innerWidth - 32, 900);
+      const h = Math.min(window.innerHeight * 0.65, 700);
+      return { width: Math.max(w, 320), height: Math.max(h, 420) };
+    }
+    return { width: 900, height: 700 };
   });
 
   useEffect(() => {
@@ -318,14 +334,22 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     }
 
     const { width, height } = dimensions;
-    // Generous padding so entire Kashmir to Kanyakumari and Gujarat to Arunachal are comfortably in view
-    const paddingX = Math.max(28, width * 0.06);
-    const paddingY = Math.max(24, height * 0.05);
+    const isMobile = width < 640;
+
+    // Mobile safe-zones:
+    // Leave top space for the floating legend "Collective Light of India" (70px)
+    // Leave bottom space for the Zoom & Reset buttons (65px)
+    // Horizontal padding (16px)
+    // This ensures all regions of India (Kashmir to Kanyakumari, Gujarat to Arunachal)
+    // fit comfortably in view on any mobile device without clipping!
+    const paddingX = isMobile ? Math.max(16, width * 0.04) : Math.max(36, width * 0.06);
+    const paddingTop = isMobile ? 70 : Math.max(45, height * 0.06);
+    const paddingBottom = isMobile ? 65 : Math.max(45, height * 0.06);
 
     const proj = geoMercator().fitExtent(
       [
-        [paddingX, paddingY],
-        [width - paddingX, height - paddingY],
+        [paddingX, paddingTop],
+        [width - paddingX, height - paddingBottom],
       ],
       geoData
     );
@@ -410,7 +434,9 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     if (target && canvasRef.current) {
       lastHandledFocusRef.current = focusedPublicId;
       const { width, height } = dimensions;
-      const targetScale = Math.max(cameraRef.current.scale, 1.3);
+      const isMobile = width < 640;
+      // On mobile screens, scale gently (1.15x) so surrounding geography remains clear
+      const targetScale = isMobile ? 1.15 : 1.35;
       cameraRef.current.scale = targetScale;
       cameraRef.current.x = width / 2 - target.x * targetScale;
       cameraRef.current.y = height / 2 - target.y * targetScale;
@@ -440,6 +466,8 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
       if (canvas.width !== Math.floor(width * dpr) || canvas.height !== Math.floor(height * dpr)) {
         canvas.width = Math.floor(width * dpr);
         canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
       }
 
       ctx.save();
@@ -595,49 +623,130 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     [projectedDiyas]
   );
 
-  // Pointer interactions
+  // Multi-touch gestures & Pointer interactions with Safari pointer capture
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    cameraRef.current.isDragging = true;
-    cameraRef.current.hasMoved = false;
-    cameraRef.current.startX = e.clientX - cameraRef.current.x;
-    cameraRef.current.startY = e.clientY - cameraRef.current.y;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Ignore if setPointerCapture fails on certain mobile webkit versions
+    }
+
+    activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointersRef.current.size === 1) {
+      cameraRef.current.isDragging = true;
+      cameraRef.current.hasMoved = false;
+      cameraRef.current.startX = e.clientX - cameraRef.current.x;
+      cameraRef.current.startY = e.clientY - cameraRef.current.y;
+      cameraRef.current.pointerDownPos = { x: e.clientX, y: e.clientY };
+    } else if (activePointersRef.current.size === 2) {
+      // Two fingers: initialize smooth pinch zoom
+      const pts = Array.from(activePointersRef.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const midX = (pts[0].x + pts[1].x) / 2;
+      const midY = (pts[0].y + pts[1].y) / 2;
+
+      touchStateRef.current = {
+        startDist: Math.max(dist, 10),
+        startScale: cameraRef.current.scale,
+        startMidX: midX,
+        startMidY: midY,
+        startCamX: cameraRef.current.x,
+        startCamY: cameraRef.current.y,
+      };
+
+      cameraRef.current.isDragging = false;
+      cameraRef.current.hasMoved = true;
+    }
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (cameraRef.current.isDragging) {
+    if (!activePointersRef.current.has(e.pointerId)) return;
+    activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointersRef.current.size === 1 && cameraRef.current.isDragging) {
       const newX = e.clientX - cameraRef.current.startX;
       const newY = e.clientY - cameraRef.current.startY;
-      if (Math.hypot(newX - cameraRef.current.x, newY - cameraRef.current.y) > 4) {
+      const downPos = cameraRef.current.pointerDownPos;
+      if (downPos && Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) > 6) {
         cameraRef.current.hasMoved = true;
       }
       cameraRef.current.x = newX;
       cameraRef.current.y = newY;
       if (hoveredDiya) setHoveredDiya(null);
-    } else {
+    } else if (activePointersRef.current.size >= 2 && touchStateRef.current) {
+      // Smooth multi-touch pinch zoom & 2-finger pan
+      const pts = Array.from(activePointersRef.current.values());
+      const currentDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const currentMidX = (pts[0].x + pts[1].x) / 2;
+      const currentMidY = (pts[0].y + pts[1].y) / 2;
+
+      const scaleRatio = currentDist / touchStateRef.current.startDist;
+      const newScale = Math.min(Math.max(touchStateRef.current.startScale * scaleRatio, 0.75), 4.5);
+      const actualRatio = newScale / touchStateRef.current.startScale;
+
+      const midX = touchStateRef.current.startMidX;
+      const midY = touchStateRef.current.startMidY;
+
+      cameraRef.current.scale = newScale;
+      cameraRef.current.x =
+        midX - (midX - touchStateRef.current.startCamX) * actualRatio + (currentMidX - midX);
+      cameraRef.current.y =
+        midY - (midY - touchStateRef.current.startCamY) * actualRatio + (currentMidY - midY);
+      cameraRef.current.hasMoved = true;
+      if (hoveredDiya) setHoveredDiya(null);
+    } else if (e.pointerType === "mouse" && !cameraRef.current.isDragging) {
       const found = findClosestDiya(e.clientX, e.clientY, 16);
       setHoveredDiya(found);
     }
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!cameraRef.current.isDragging) return;
-    cameraRef.current.isDragging = false;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignore
+    }
 
-    // Click/tap detection
-    if (!cameraRef.current.hasMoved) {
-      const found = findClosestDiya(e.clientX, e.clientY, 22);
-      if (found) {
-        setHoveredDiya(found);
-        onSelectDiya(found.diya);
-      } else {
-        setHoveredDiya(null);
+    activePointersRef.current.delete(e.pointerId);
+
+    if (activePointersRef.current.size === 0) {
+      // Clean tap detection
+      if (cameraRef.current.isDragging && !cameraRef.current.hasMoved) {
+        // On mobile touchscreen, use 28px tap threshold for comfortable finger tap
+        const tapThreshold = e.pointerType === "touch" ? 28 : 20;
+        const found = findClosestDiya(e.clientX, e.clientY, tapThreshold);
+        if (found) {
+          setHoveredDiya(found);
+          onSelectDiya(found.diya);
+        } else {
+          setHoveredDiya(null);
+        }
       }
+      cameraRef.current.isDragging = false;
+      touchStateRef.current = null;
+    } else if (activePointersRef.current.size === 1) {
+      // Smoothly transition from 2-finger pinch back to 1-finger pan without position jump
+      const remaining = Array.from(activePointersRef.current.values())[0];
+      cameraRef.current.isDragging = true;
+      cameraRef.current.startX = remaining.x - cameraRef.current.x;
+      cameraRef.current.startY = remaining.y - cameraRef.current.y;
+      cameraRef.current.pointerDownPos = { x: remaining.x, y: remaining.y };
+      touchStateRef.current = null;
     }
   };
 
-  const handlePointerLeave = () => {
-    cameraRef.current.isDragging = false;
-    setHoveredDiya(null);
+  const handlePointerCancel = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignore
+    }
+    activePointersRef.current.delete(e.pointerId);
+    if (activePointersRef.current.size === 0) {
+      cameraRef.current.isDragging = false;
+      touchStateRef.current = null;
+    }
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
@@ -651,7 +760,7 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     const mouseY = e.clientY - rect.top;
 
     const currentScale = cameraRef.current.scale;
-    const newScale = Math.min(Math.max(currentScale * zoomFactor, 0.7), 4.5);
+    const newScale = Math.min(Math.max(currentScale * zoomFactor, 0.75), 4.5);
 
     cameraRef.current.x = mouseX - (mouseX - cameraRef.current.x) * (newScale / currentScale);
     cameraRef.current.y = mouseY - (mouseY - cameraRef.current.y) * (newScale / currentScale);
@@ -661,17 +770,31 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
     setHoveredDiya(found);
   };
 
-  const resetView = () => {
+  // Centered zoom handler (zooms into the center of the visible canvas, preventing map shifts)
+  const handleZoom = useCallback(
+    (factor: number) => {
+      const currentScale = cameraRef.current.scale;
+      const newScale = Math.min(Math.max(currentScale * factor, 0.75), 4.5);
+      const cx = dimensions.width / 2;
+      const cy = dimensions.height / 2;
+      cameraRef.current.x = cx - (cx - cameraRef.current.x) * (newScale / currentScale);
+      cameraRef.current.y = cy - (cy - cameraRef.current.y) * (newScale / currentScale);
+      cameraRef.current.scale = newScale;
+    },
+    [dimensions]
+  );
+
+  const resetView = useCallback(() => {
     cameraRef.current.x = 0;
     cameraRef.current.y = 0;
     cameraRef.current.scale = 1;
     setHoveredDiya(null);
-  };
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[68vh] sm:h-[78vh] overflow-hidden rounded-2xl border border-flame-400/25 bg-night-950 shadow-[0_0_35px_rgba(20,2,6,0.8)] select-none cursor-grab active:cursor-grabbing"
+      className="relative w-full max-w-full h-[62dvh] min-h-[420px] max-h-[720px] sm:h-[76vh] overflow-hidden rounded-2xl border border-flame-400/25 bg-night-950 shadow-[0_0_35px_rgba(20,2,6,0.8)] select-none cursor-grab active:cursor-grabbing touch-none"
     >
       {/* Loading state for GeoJSON */}
       {geoLoading && (
@@ -689,9 +812,11 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerLeave}
+        onPointerCancel={handlePointerCancel}
+        onPointerLeave={handlePointerCancel}
         onWheel={handleWheel}
-        className="w-full h-full block touch-none"
+        className="w-full h-full max-w-full max-h-full block touch-none"
+        style={{ width: "100%", height: "100%", touchAction: "none" }}
         aria-label="Map of India Diya Wall"
       />
 
@@ -738,19 +863,19 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
       )}
 
       {/* Floating Map Legend */}
-      <div className="absolute top-4 left-4 pointer-events-none flex flex-col gap-0.5 text-[11px] text-ivory-300/80 bg-night-900/80 px-3.5 py-2 rounded-xl border border-night-800 backdrop-blur-md shadow-lg">
-        <div className="flex items-center gap-2">
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 pointer-events-none flex flex-col gap-0.5 text-[11px] text-ivory-300/80 bg-night-900/85 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-night-800/80 backdrop-blur-md shadow-lg max-w-[calc(100%-24px)]">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="text-xs">🪔</span>
-          <span className="font-semibold text-ivory-100">Collective Light of India</span>
+          <span className="font-semibold text-ivory-100 text-[11px] sm:text-xs">Collective Light of India</span>
         </div>
-        <span className="text-[10px] text-ivory-300/60 pl-5">
+        <span className="text-[9px] sm:text-[10px] text-ivory-300/60 pl-4 sm:pl-5 truncate">
           {projectedDiyas.length} Diyas glowing across India
         </span>
       </div>
 
       {/* Instructions Overlay - Hidden on very small screens to prevent overlap, visible on sm+ */}
       <div className="absolute top-4 right-4 pointer-events-none hidden sm:block text-[11px] text-ivory-300/80 bg-night-900/80 px-3 py-1.5 rounded-lg border border-night-800 backdrop-blur-sm shadow">
-        Hover or tap any diya • Drag to pan
+        Pinch or buttons to zoom • Drag to pan • Tap diya
       </div>
 
       {/* Zoom and Reset Controls: 44x44px min tap targets */}
@@ -758,7 +883,7 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
         <button
           type="button"
           onClick={resetView}
-          className="min-h-[44px] px-3.5 rounded-xl bg-night-900/95 border border-night-750 text-ivory-200 text-xs font-medium hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer whitespace-nowrap flex items-center justify-center focus-visible:ring-2 focus-visible:ring-flame-400"
+          className="min-h-[44px] px-3 sm:px-3.5 rounded-xl bg-night-900/95 border border-night-750 text-ivory-200 text-xs font-medium hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer whitespace-nowrap flex items-center justify-center focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Reset to whole India"
           aria-label="Reset India map view"
         >
@@ -766,9 +891,7 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
         </button>
         <button
           type="button"
-          onClick={() => {
-            cameraRef.current.scale = Math.min(cameraRef.current.scale * 1.3, 4.5);
-          }}
+          onClick={() => handleZoom(1.3)}
           className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-night-900/95 border border-night-750 text-ivory-100 flex items-center justify-center text-lg font-bold hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Zoom in"
           aria-label="Zoom in map"
@@ -777,9 +900,7 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
         </button>
         <button
           type="button"
-          onClick={() => {
-            cameraRef.current.scale = Math.max(cameraRef.current.scale * 0.77, 0.7);
-          }}
+          onClick={() => handleZoom(0.77)}
           className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-night-900/95 border border-night-750 text-ivory-100 flex items-center justify-center text-lg font-bold hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Zoom out"
           aria-label="Zoom out map"

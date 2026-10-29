@@ -34,7 +34,7 @@ export const ActivityStrip: React.FC<ActivityStripProps> = ({ onSelectDiya }) =>
   if (recentDiyas.length === 0) return null;
 
   return (
-    <div className="w-full overflow-hidden bg-night-900/60 border border-night-800 rounded-2xl p-3 my-4">
+    <div className="w-full max-w-full min-w-0 overflow-hidden bg-night-900/60 border border-night-800 rounded-2xl p-3 my-4">
       <div className="flex items-center gap-2 mb-2 px-1">
         <span className="w-2 h-2 rounded-full bg-flame-400 animate-pulse" />
         <span className="text-[11px] uppercase font-bold tracking-wider text-flame-300">
@@ -42,7 +42,7 @@ export const ActivityStrip: React.FC<ActivityStripProps> = ({ onSelectDiya }) =>
         </span>
       </div>
 
-      <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
+      <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 max-w-full">
         {recentDiyas.map((diya) => (
           <button
             key={diya.publicId}
