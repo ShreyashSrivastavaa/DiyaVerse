@@ -47,6 +47,7 @@ export const Hero: React.FC = () => {
               width={1024}
               height={576}
               priority
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
               className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.015]"
             />
           </div>

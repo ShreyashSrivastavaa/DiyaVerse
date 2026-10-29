@@ -6,6 +6,7 @@ import { HowItWorks } from "@/components/public/HowItWorks";
 import { RecentWishes } from "@/components/public/RecentWishes";
 import { QuizBanner } from "@/components/public/QuizBanner";
 import { ShareBlock } from "@/components/public/ShareBlock";
+import { DiwaliStoryAndFaq } from "@/components/public/DiwaliStoryAndFaq";
 
 export const revalidate = 10; // ISR cache 10s
 
@@ -100,6 +101,7 @@ export default async function HomePage() {
         <HowItWorks />
         <QuizBanner />
         <RecentWishes initialDiyas={recentDiyas} />
+        <DiwaliStoryAndFaq />
         <ShareBlock />
       </main>
     </div>
