@@ -45,7 +45,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
             value={selectedState}
             onChange={(e) => onStateChange(e.target.value)}
             disabled={disabled}
-            className="w-full px-3.5 py-2.5 bg-night-950 border border-night-750 focus:border-flame-400 rounded-xl text-xs sm:text-sm text-ivory-100 outline-none transition-colors cursor-pointer disabled:opacity-50 min-h-[44px]"
+            className="w-full px-3.5 py-2.5 bg-night-950 border border-night-750 focus:border-flame-400 rounded-xl text-base text-ivory-100 outline-none transition-colors cursor-pointer disabled:opacity-50 min-h-[44px]"
           >
             <option value="">Select your state (राज्य चुनें)...</option>
             {INDIA_STATES.map((s) => (
@@ -58,7 +58,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
 
         {/* City Input */}
         <div>
-          <label htmlFor="city-input" className="block text-[11px] font-medium text-ivory-200 mb-1">
+          <label htmlFor="city-input" className="block text-xs font-medium text-ivory-200 mb-1">
             City / Town (Optional)
           </label>
           <input
@@ -68,8 +68,10 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
             onChange={(e) => onCityChange(e.target.value)}
             disabled={disabled}
             maxLength={50}
+            autoComplete="address-level2"
+            inputMode="text"
             placeholder="e.g. Ayodhya, Varanasi, Mumbai"
-            className="w-full px-3.5 py-2.5 bg-night-950 border border-night-750 focus:border-flame-400 rounded-xl text-xs sm:text-sm text-ivory-100 placeholder:text-ivory-300/30 outline-none transition-colors disabled:opacity-50 min-h-[44px]"
+            className="w-full px-3.5 py-2.5 bg-night-950 border border-night-750 focus:border-flame-400 rounded-xl text-base text-ivory-100 placeholder:text-ivory-300/30 outline-none transition-colors disabled:opacity-50 min-h-[44px]"
           />
         </div>
       </div>

@@ -170,24 +170,24 @@ export function DiwaliStoryAndFaq() {
           {FAQS.map((faq, index) => (
             <div
               key={index}
-              className="bg-night-900/70 border border-night-800 hover:border-flame-400/30 rounded-2xl p-6 transition-all duration-300 shadow-sm"
+              className="bg-night-900/70 border border-night-800 hover:border-flame-400/30 rounded-2xl p-4 sm:p-6 transition-all duration-300 shadow-sm"
             >
-              <h3 className="text-base sm:text-lg font-serif font-semibold text-ivory-100 mb-2 flex items-start gap-2.5">
-                <span className="text-flame-400 text-sm mt-1">✦</span>
-                <span>
+              <h3 className="text-base sm:text-lg font-serif font-semibold text-ivory-100 mb-2 flex items-start gap-2">
+                <span className="text-flame-400 text-sm mt-1 shrink-0">✦</span>
+                <span className="break-words">
                   {faq.q}
                   <span className="block text-xs font-normal text-flame-300/75 mt-0.5">
                     {faq.qHi}
                   </span>
                 </span>
               </h3>
-              <p className="text-sm text-ivory-300/90 leading-relaxed pl-5">
+              <p className="text-base text-ivory-200/90 leading-relaxed pl-3 sm:pl-5 break-words">
                 {faq.a}
                 {faq.linkHref && faq.linkText && (
                   <span className="block mt-2">
                     <Link
                       href={faq.linkHref}
-                      className="inline-flex items-center text-xs font-semibold text-flame-400 hover:text-flame-300 underline underline-offset-4"
+                      className="inline-flex items-center text-sm font-semibold text-flame-400 hover:text-flame-300 underline underline-offset-4 min-h-[44px]"
                     >
                       {faq.linkText} →
                     </Link>
