@@ -748,18 +748,19 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
         </span>
       </div>
 
-      {/* Instructions Overlay */}
-      <div className="absolute bottom-4 left-4 pointer-events-none text-[11px] text-ivory-300/70 bg-night-900/80 px-3 py-1.5 rounded-lg border border-night-800 backdrop-blur-sm">
+      {/* Instructions Overlay - Hidden on very small screens to prevent overlap, visible on sm+ */}
+      <div className="absolute top-4 right-4 pointer-events-none hidden sm:block text-[11px] text-ivory-300/80 bg-night-900/80 px-3 py-1.5 rounded-lg border border-night-800 backdrop-blur-sm shadow">
         Hover or tap any diya • Drag to pan
       </div>
 
-      {/* Zoom and Reset Controls */}
-      <div className="absolute bottom-4 right-4 flex items-center gap-2">
+      {/* Zoom and Reset Controls: 44x44px min tap targets */}
+      <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex items-center gap-1.5 sm:gap-2">
         <button
           type="button"
           onClick={resetView}
-          className="px-3 h-9 rounded-lg bg-night-900/90 border border-night-750 text-ivory-200 text-xs font-medium hover:bg-night-800 active:scale-95 transition-all shadow cursor-pointer whitespace-nowrap"
+          className="min-h-[44px] px-3.5 rounded-xl bg-night-900/95 border border-night-750 text-ivory-200 text-xs font-medium hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer whitespace-nowrap flex items-center justify-center focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Reset to whole India"
+          aria-label="Reset India map view"
         >
           Reset View 🇮🇳
         </button>
@@ -768,8 +769,9 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
           onClick={() => {
             cameraRef.current.scale = Math.min(cameraRef.current.scale * 1.3, 4.5);
           }}
-          className="w-9 h-9 rounded-lg bg-night-900/90 border border-night-750 text-ivory-100 flex items-center justify-center text-base hover:bg-night-800 active:scale-95 transition-all shadow cursor-pointer"
+          className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-night-900/95 border border-night-750 text-ivory-100 flex items-center justify-center text-lg font-bold hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Zoom in"
+          aria-label="Zoom in map"
         >
           +
         </button>
@@ -778,8 +780,9 @@ export const WallCanvas: React.FC<WallCanvasProps> = ({
           onClick={() => {
             cameraRef.current.scale = Math.max(cameraRef.current.scale * 0.77, 0.7);
           }}
-          className="w-9 h-9 rounded-lg bg-night-900/90 border border-night-750 text-ivory-100 flex items-center justify-center text-base hover:bg-night-800 active:scale-95 transition-all shadow cursor-pointer"
+          className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-night-900/95 border border-night-750 text-ivory-100 flex items-center justify-center text-lg font-bold hover:bg-night-800 active:scale-95 transition-all shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-flame-400"
           title="Zoom out"
+          aria-label="Zoom out map"
         >
           −
         </button>

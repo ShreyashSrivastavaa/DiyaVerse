@@ -25,7 +25,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false,
+  redirects: async () => [
+    {
+      source: "/products",
+      destination: "/",
+      permanent: false,
+    },
+  ],
   headers: async () => [
     {
       source: "/:path*",
