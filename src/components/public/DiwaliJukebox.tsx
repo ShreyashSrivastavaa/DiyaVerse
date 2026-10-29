@@ -36,6 +36,11 @@ export function DiwaliJukebox() {
     setCurrentIdx(randomStart);
   }, []);
 
+  const isPlayingRef = useRef(isPlaying);
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
   // Update audio source when track changes
   useEffect(() => {
     const audio = audioRef.current;
@@ -44,7 +49,7 @@ export function DiwaliJukebox() {
     audio.src = PLAYLIST[currentIdx].src;
     audio.load();
 
-    if (isPlaying) {
+    if (isPlayingRef.current) {
       audio.play().catch((err) => {
         console.warn("Autoplay was prevented:", err);
         setIsPlaying(false);

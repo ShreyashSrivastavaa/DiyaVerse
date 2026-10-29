@@ -67,7 +67,6 @@ export function SmokeOverlay() {
 
     let animId: number | null = null;
     let isVisible = true;
-    let isIntersecting = true;
     let width = 0;
     let height = 0;
     let dpr = 1;
