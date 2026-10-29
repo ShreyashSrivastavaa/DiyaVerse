@@ -5,6 +5,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service • DiyaVerse",
   description: "Terms and Community Guidelines for lighting virtual diyas and sharing wishes on DiyaVerse.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

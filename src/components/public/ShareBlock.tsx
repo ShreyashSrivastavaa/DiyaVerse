@@ -9,7 +9,7 @@ export const ShareBlock: React.FC = () => {
 
   const siteUrl = typeof window !== "undefined"
     ? window.location.origin
-    : "https://diyaverse.in";
+    : (process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.vercel.app");
 
   const shareText = "This Diwali, let's illuminate India together on DiyaVerse 🪔 Light a virtual diya in seconds and join the collective glowing wall:";
 

@@ -97,7 +97,7 @@ export function RamayanQuiz() {
   const scoreDetails = getScoreTitle(score);
 
   const shareText = `I scored ${score}/10 on the DiyaVerse Ramayana Gyan Quiz! 🪔 Test your knowledge of the sacred epic here:`;
-  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/quiz` : "https://diyaverse.in/quiz";
+  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/quiz` : "https://diyaverse.vercel.app/quiz";
 
   const handleShareWhatsApp = () => {
     const fullText = encodeURIComponent(`${shareText} ${shareUrl}`);

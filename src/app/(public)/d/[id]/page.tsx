@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { prisma } from "@/lib/db";
 import { DiyaActions } from "@/components/public/DiyaActions";
 
@@ -81,29 +82,41 @@ export async function generateMetadata({ params }: DiyaPageProps): Promise<Metad
   const { id } = await params;
   const diya = await getDiya(id);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.vercel.app";
+
   if (!diya || diya.status === "DELETED" || !diya.wishVisible) {
     return {
-      title: "DiyaVerse • A Sacred Light for Diwali",
+      title: "Diya Resting | DiyaVerse",
       description: "A diya lit with warm blessings on DiyaVerse.",
+      robots: { index: false, follow: true },
     };
   }
 
-  const wishText = diya.customWish || diya.wish?.text || "May light triumph over darkness.";
+  const rawWish = diya.customWish || diya.wish?.text || "May light triumph over darkness.";
+  const truncatedWish = rawWish.length > 100 ? `${rawWish.slice(0, 97)}...` : rawWish;
   const dedication = diya.dedicationText || (diya.dedication ? `For my ${diya.dedication}` : "");
-  const title = dedication ? `Diya ${dedication} • DiyaVerse` : "A Sacred Diya • DiyaVerse";
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.in";
+  const title = dedication ? `${dedication} • ${truncatedWish}` : truncatedWish;
+  const description = `"${truncatedWish}" — Lit on DiyaVerse this Diwali 2026.`;
   const ogImageUrl = `${siteUrl}/d/${id}/opengraph-image`;
 
   return {
     title,
-    description: `"${wishText}" — Lit on DiyaVerse this Diwali.`,
+    description,
     alternates: {
       canonical: `${siteUrl}/d/${id}`,
     },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+      },
+    },
     openGraph: {
-      title,
-      description: `"${wishText}" — Lit on DiyaVerse this Diwali.`,
+      title: `${title} | DiyaVerse`,
+      description,
       url: `${siteUrl}/d/${id}`,
       siteName: "DiyaVerse",
       images: [
@@ -114,12 +127,12 @@ export async function generateMetadata({ params }: DiyaPageProps): Promise<Metad
           alt: "DiyaVerse Sacred Diya Greeting Card",
         },
       ],
-      type: "website",
+      type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description: `"${wishText}" — Lit on DiyaVerse this Diwali.`,
+      title: `${title} | DiyaVerse`,
+      description,
       images: [ogImageUrl],
     },
   };
@@ -192,9 +205,41 @@ export default async function DiyaPage({ params }: DiyaPageProps) {
       ? "Sacred Lotus Diya in illuminated temple niche"
       : "Sacred Diya in illuminated temple niche";
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.vercel.app";
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Diya Wall",
+        item: `${siteUrl}/wall`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `Diya #${id}`,
+        item: `${siteUrl}/d/${id}`,
+      },
+    ],
+  };
+
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 max-w-2xl sm:max-w-[620px] mx-auto flex flex-col items-center">
-      <div className="w-full space-y-8 animate-fade-in">
+    <>
+      <Script
+        id="diya-breadcrumbs-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <div className="min-h-screen py-12 px-4 sm:px-6 max-w-2xl sm:max-w-[620px] mx-auto flex flex-col items-center">
+        <div className="w-full space-y-8 animate-fade-in">
         {/* Main Lit Diya Card */}
         <div className="relative rounded-3xl bg-gradient-to-b from-night-950/95 via-[#140308]/95 to-night-950/95 border border-ivory-100/35 sm:border-ivory-100/40 p-8 sm:p-11 text-center shadow-[0_0_50px_rgba(255,159,28,0.2)] flex flex-col items-center overflow-hidden">
           {/* Subtle radiant background glow */}
@@ -252,5 +297,6 @@ export default async function DiyaPage({ params }: DiyaPageProps) {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -5,6 +5,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy • DiyaVerse",
   description: "Privacy policy for DiyaVerse, aligned with India's Digital Personal Data Protection (DPDP) Act, 2023.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

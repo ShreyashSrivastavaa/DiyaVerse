@@ -1,15 +1,52 @@
 import React from "react";
 import Link from "next/link";
+import Script from "next/script";
 import { Metadata } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://diyaverse.vercel.app";
+
 export const metadata: Metadata = {
-  title: "About DiyaVerse • Our Vision & Principles",
-  description: "DiyaVerse is a truthful, nationwide digital celebration connecting hearts across India for Diwali.",
+  title: "About DiyaVerse • Our Vision & Sacred Mission",
+  description:
+    "DiyaVerse is a truthful, nationwide digital celebration connecting hearts across India for Diwali 2026. Learn about our privacy-first philosophy and team.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About DiyaVerse • Our Vision & Sacred Mission",
+    description: "Learn about DiyaVerse, our mission to light India together, and our zero-tracking privacy philosophy.",
+    url: `${siteUrl}/about`,
+    type: "website",
+  },
 };
 
 export default function AboutPage() {
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About",
+        item: `${siteUrl}/about`,
+      },
+    ],
+  };
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16 space-y-12">
+    <>
+      <Script
+        id="about-breadcrumbs-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <div className="max-w-3xl mx-auto px-4 py-16 space-y-12">
       <div className="text-center space-y-3">
         <span className="text-4xl">🪔</span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-ivory-50 tracking-tight">
@@ -89,5 +126,6 @@ export default function AboutPage() {
         </Link>
       </div>
     </div>
+    </>
   );
 }
